@@ -1,0 +1,589 @@
+<title>AR Electric</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap">
+<style>
+:root{
+  /* Layout: sticky violet header with a tab bar, one tab shown at a time; purple brushed-metal panels, gold/orange metal rounded rectangles for actions and numbers. */
+  --ink:#f5f0ff; --ink-2:#d2c6ee; --ink-3:#a595cf;
+  --v950:#0f0520; --v900:#1a0936; --v800:#2c1259; --v700:#43208a; --v500:#7a47d1;
+  --edge:rgba(210,185,255,.26);
+  --gold-hi:#fff0a6; --gold:#ffc226; --amber:#ff9318; --amber-lo:#d96a0b; --on-gold:#2a0c52;
+  --gold-grad:linear-gradient(165deg,#fff0a6 0%,#ffcf3a 22%,#ff9f1c 55%,#ffb92e 78%,#e8830f 100%);
+  --panel:linear-gradient(160deg,rgba(139,92,214,.34) 0%,rgba(58,24,116,.62) 45%,rgba(30,10,64,.8) 100%);
+  --r:20px; --r-s:14px;
+  --f-display:"Sora","Cairo",system-ui,sans-serif;
+  --f-body:"Inter","Cairo",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;font-family:var(--f-body);font-size:16px;line-height:1.6;color:var(--ink);
+  background-color:var(--v900);
+  background-image:
+    radial-gradient(900px 520px at 12% -8%,rgba(150,100,235,.55),transparent 62%),
+    radial-gradient(800px 600px at 100% 12%,rgba(95,45,175,.6),transparent 58%),
+    linear-gradient(180deg,#2a1058 0%,#170733 55%,#0f0520 100%);
+  background-repeat:no-repeat;
+  min-height:100%;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:#190a35}
+html[lang="ar"] body{font-family:"Cairo",var(--f-body);line-height:1.8}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.15;font-weight:700;text-wrap:balance}
+html[lang="ar"] h1,html[lang="ar"] h2,html[lang="ar"] h3{font-family:"Cairo",var(--f-display);line-height:1.4}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold-hi);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1080px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(25,10,53,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--edge)}
+.top-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px 4px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;min-width:0}
+.badge{flex:none;width:52px;height:52px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 0 0 2px var(--gold),0 8px 20px -8px rgba(255,160,30,.6)}
+.badge img{height:40px;width:auto;display:block}
+.brand-t{display:flex;flex-direction:column;min-width:0}
+.brand-t strong{font-family:var(--f-display);font-size:1.15rem;letter-spacing:.01em}
+html[lang="ar"] .brand-t strong{font-family:"Cairo",var(--f-display)}
+.brand-t small{color:var(--ink-2);font-size:.78rem;line-height:1.3}
+.lang{display:flex;gap:4px;padding:4px;border:1px solid var(--edge);border-radius:14px;background:rgba(15,5,32,.5)}
+.lang button{font:inherit;font-size:.82rem;font-weight:600;color:var(--ink-2);background:none;border:0;padding:.35rem .7rem;border-radius:10px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--gold-grad);color:var(--on-gold)}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-block:8px 12px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;text-decoration:none;color:var(--ink-2);font-weight:600;font-size:.95rem;padding:.55rem 1.05rem;border-radius:12px;border:1px solid var(--edge);background:rgba(60,28,120,.35)}
+.tab:hover{color:var(--ink);border-color:rgba(255,210,90,.55)}
+.tab[aria-current="page"]{background:var(--gold-grad);color:var(--on-gold);border-color:transparent;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),inset 0 -2px 0 rgba(160,70,0,.3)}
+
+/* shared */
+.sec{padding-block:2.4rem 0}
+.sec-head{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.5rem;max-width:62ch}
+.sec-head h2{font-size:clamp(1.6rem,3.4vw,2.3rem)}
+.sec-head p{color:var(--ink-2)}
+.eyebrow{display:inline-block;align-self:flex-start;font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-hi);border:1px solid rgba(255,210,90,.45);border-radius:10px;padding:.25rem .65rem}
+html[lang="ar"] .eyebrow{letter-spacing:0}
+.panel{background:var(--panel);border:1px solid var(--edge);border-radius:var(--r);padding:1.25rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 18px 40px -24px rgba(0,0,0,.8);min-width:0}
+.panel h3{font-size:1.1rem;margin-bottom:.4rem}
+.panel p{color:var(--ink-2);font-size:.97rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;font:inherit;font-weight:700;font-size:1rem;text-decoration:none;cursor:pointer;border:0;border-radius:16px;padding:.85rem 1.3rem;color:var(--on-gold);background:var(--gold-grad);box-shadow:inset 0 1px 0 rgba(255,255,255,.65),inset 0 -2px 0 rgba(160,70,0,.35),0 12px 26px -12px rgba(255,150,20,.7)}
+.btn:hover{filter:brightness(1.06)}
+.btn svg{width:20px;height:20px;flex:none}
+.btn.ghost{background:rgba(60,28,120,.45);color:var(--ink);box-shadow:none;border:1px solid var(--edge)}
+.btn.ghost:hover{border-color:rgba(255,210,90,.6)}
+.btn.small{font-size:.9rem;padding:.55rem .9rem;border-radius:12px}
+.row{display:flex;flex-wrap:wrap;gap:12px}
+.ico{width:46px;height:46px;border-radius:14px;background:var(--gold-grad);color:var(--on-gold);display:grid;place-items:center;margin-bottom:.9rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.65),inset 0 -2px 0 rgba(160,70,0,.3)}
+.ico svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:2rem;align-items:center;padding-block:2.2rem 0}
+.hero h1{font-size:clamp(2rem,5vw,3.3rem);margin:.9rem 0 1rem}
+.hero p.lead{font-size:1.08rem;color:var(--ink-2);max-width:56ch;margin-bottom:1.5rem}
+.logo-card{justify-self:center;width:min(100%,290px);background:#fff;border-radius:30px;padding:1.4rem;display:grid;place-items:center;border:3px solid var(--gold);box-shadow:0 0 0 6px rgba(255,194,38,.18),0 30px 60px -26px rgba(0,0,0,.9)}
+.logo-card img{width:100%;height:auto;max-height:340px;object-fit:contain;display:block}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:2.2rem}
+.stat{background:var(--panel);border:1px solid var(--edge);border-radius:var(--r-s);padding:1rem 1.1rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.18);min-width:0}
+.stat b{display:block;font-family:var(--f-display);font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.15;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+html[lang="ar"] .stat b{font-family:"Cairo",var(--f-display)}
+.stat span{color:var(--ink-2);font-size:.9rem}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:16px}
+.step{display:flex;flex-direction:column;gap:.3rem}
+.num{width:40px;height:40px;border-radius:12px;background:var(--gold-grad);color:var(--on-gold);font-weight:700;display:grid;place-items:center;margin-bottom:.6rem;font-family:var(--f-display);box-shadow:inset 0 1px 0 rgba(255,255,255,.6)}
+.band{margin-top:2.6rem;border-radius:var(--r);padding:clamp(1.4rem,4vw,2.2rem);background:var(--gold-grad);color:var(--on-gold);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.2rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 -3px 0 rgba(160,70,0,.3),0 24px 50px -28px rgba(255,150,20,.8)}
+.band h2{font-size:clamp(1.3rem,3vw,1.8rem)}
+.band p{margin-top:.3rem;max-width:48ch}
+.band .btn{background:var(--v800);color:var(--ink);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 10px 22px -12px rgba(30,10,64,.9)}
+
+/* accordion */
+.accs{display:flex;flex-direction:column;gap:12px}
+.acc{background:var(--panel);border:1px solid var(--edge);border-radius:var(--r-s);box-shadow:inset 0 1px 0 rgba(255,255,255,.16)}
+.acc summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.2rem;font-weight:600}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"+";flex:none;width:30px;height:30px;border-radius:10px;background:var(--gold-grad);color:var(--on-gold);display:grid;place-items:center;font-weight:700;font-size:1.2rem;line-height:1}
+.acc[open] summary::after{content:"\2212"}
+.acc p{padding:0 1.2rem 1.1rem;color:var(--ink-2);max-width:66ch}
+.tag{display:inline-block;margin-top:.9rem;font-size:.8rem;color:var(--gold-hi);border:1px solid rgba(255,210,90,.4);border-radius:10px;padding:.2rem .6rem}
+
+/* team / podcast / contact */
+.cols{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:24px;align-items:start}
+.prose{display:flex;flex-direction:column;gap:1rem;color:var(--ink-2);max-width:62ch}
+.vals{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:14px}
+.pod{display:grid;grid-template-columns:auto minmax(0,1fr);gap:1.4rem;align-items:center}
+.play{width:92px;height:92px;border-radius:24px;background:var(--gold-grad);display:grid;place-items:center;color:var(--on-gold);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 -3px 0 rgba(160,70,0,.3)}
+.play svg{width:38px;height:38px;fill:currentColor}
+html[dir="rtl"] .play svg{transform:scaleX(-1)}
+.pts{list-style:none;margin:1.2rem 0 0;padding:0;display:grid;gap:12px}
+.pts li{display:flex;flex-direction:column;padding-inline-start:1rem;border-inline-start:3px solid var(--gold)}
+.pts li b{font-weight:600}
+.pts li span{color:var(--ink-2);font-size:.95rem}
+.phone{display:flex;flex-direction:column;gap:.8rem}
+.phone .lab{font-size:.85rem;color:var(--ink-3)}
+.phone .nb{font-family:var(--f-display);font-size:clamp(1.4rem,4vw,1.8rem);font-weight:700;direction:ltr;unicode-bidi:isolate;text-align:start;user-select:text;-webkit-user-select:text}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:.8rem 0 1.1rem}
+.chip{font:inherit;font-size:.92rem;font-weight:600;color:var(--ink-2);background:rgba(60,28,120,.45);border:1px solid var(--edge);border-radius:12px;padding:.5rem .9rem;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--gold-grad);color:var(--on-gold);border-color:transparent}
+.field label{display:block;font-size:.88rem;color:var(--ink-3);margin-bottom:.35rem}
+.field input{width:100%;font:inherit;color:var(--ink);background:rgba(15,5,32,.55);border:1px solid var(--edge);border-radius:12px;padding:.7rem .9rem}
+.field input::placeholder{color:var(--ink-3)}
+.field{margin-bottom:1.1rem}
+.soc{display:flex;flex-wrap:wrap;gap:12px;margin-top:.9rem}
+.soc a{text-decoration:none;display:flex;flex-direction:column;padding:.8rem 1rem;border-radius:14px;border:1px solid var(--edge);background:rgba(60,28,120,.4);min-width:0}
+.soc a:hover{border-color:rgba(255,210,90,.6)}
+.soc small{color:var(--ink-3)}
+.soc strong{direction:ltr;unicode-bidi:isolate}
+
+/* footer + fab */
+footer{margin-top:3.5rem;border-top:1px solid var(--edge);padding-block:1.6rem 6rem;color:var(--ink-3);font-size:.9rem}
+footer .f{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
+footer .nbs{direction:ltr;unicode-bidi:isolate}
+.fab{position:fixed;z-index:30;bottom:calc(16px + env(safe-area-inset-bottom,0px));inset-inline-end:max(16px,env(safe-area-inset-right,0px),env(safe-area-inset-left,0px))}
+.fab .btn{padding:.9rem 1.2rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.65),inset 0 -2px 0 rgba(160,70,0,.35),0 14px 30px -8px rgba(0,0,0,.7)}
+
+@media (max-width:820px){
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .logo-card{order:-1;width:min(100%,220px)}
+  .cols{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:520px){
+  .pod{grid-template-columns:minmax(0,1fr)}
+  .play{width:72px;height:72px;border-radius:20px}
+  .brand-t small{display:none}
+  .btn{width:100%}
+  .fab .btn{width:auto}
+  .row .btn.small{width:auto}
+}
+@media (prefers-reduced-motion:no-preference){
+  .sec,.hero{animation:rise .35s ease-out both}
+  @keyframes rise{from{opacity:.001;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="top-row">
+      <a class="brand" href="#accueil">
+        <span class="badge"><img data-logo alt="Logo AR Electric"></span>
+        <span class="brand-t"><strong>AR Electric</strong><small data-i18n="brandSub"></small></span>
+      </a>
+      <div class="lang" role="group" aria-label="Langue / اللغة / Language">
+        <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+        <button type="button" data-lang="ar" aria-pressed="false" lang="ar">عربي</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs" data-i18n-aria="navLabel">
+      <a class="tab" href="#accueil" data-tab="accueil" data-i18n="tabs.accueil"></a>
+      <a class="tab" href="#services" data-tab="services" data-i18n="tabs.services"></a>
+      <a class="tab" href="#equipe" data-tab="equipe" data-i18n="tabs.equipe"></a>
+      <a class="tab" href="#conseils" data-tab="conseils" data-i18n="tabs.conseils"></a>
+      <a class="tab" href="#podcast" data-tab="podcast" data-i18n="tabs.podcast"></a>
+      <a class="tab" href="#contact" data-tab="contact" data-i18n="tabs.contact"></a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ACCUEIL -->
+  <section data-tab="accueil">
+    <div class="wrap">
+      <div class="hero">
+        <div>
+          <span class="eyebrow" data-i18n="hero.eyebrow"></span>
+          <h1 data-i18n="hero.h1"></h1>
+          <p class="lead" data-i18n="hero.p"></p>
+          <div class="row">
+            <a class="btn" data-wa href="#" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 19z"/><path d="M9.5 9c.2 2.4 2.1 4.3 4.5 4.6l1.1-1.2-1.7-.9-.8.6a3.2 3.2 0 0 1-1.4-1.4l.6-.8-.9-1.7z"/></svg><span data-i18n="hero.cta1"></span></a>
+            <a class="btn ghost" href="#services" data-i18n="hero.cta2"></a>
+          </div>
+        </div>
+        <div class="logo-card"><img data-logo alt="AR Electric"></div>
+      </div>
+      <div class="stats" id="stats"></div>
+    </div>
+
+    <div class="wrap sec">
+      <div class="sec-head"><h2 data-i18n="forTitle"></h2></div>
+      <div class="grid" id="forItems"></div>
+    </div>
+
+    <div class="wrap sec">
+      <div class="sec-head"><h2 data-i18n="howTitle"></h2></div>
+      <div class="steps" id="steps"></div>
+      <div class="band">
+        <div><h2 data-i18n="bandT"></h2><p data-i18n="bandP"></p></div>
+        <a class="btn" data-wa href="#" target="_blank" rel="noopener noreferrer"><span data-i18n="hero.cta1"></span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section data-tab="services" hidden>
+    <div class="wrap sec">
+      <div class="sec-head"><h2 data-i18n="svcTitle"></h2><p data-i18n="svcIntro"></p></div>
+      <div class="grid" id="svc"></div>
+    </div>
+    <div class="wrap sec">
+      <div class="sec-head"><h2 data-i18n="faqTitle"></h2></div>
+      <div class="accs" id="faq"></div>
+    </div>
+  </section>
+
+  <!-- QUI SOMMES-NOUS -->
+  <section data-tab="equipe" hidden>
+    <div class="wrap sec">
+      <div class="sec-head"><h2 data-i18n="whoTitle"></h2></div>
+      <div class="cols">
+        <div class="prose">
+          <p data-i18n="whoP1"></p>
+          <p data-i18n="whoP2"></p>
+          <p data-i18n="commP"></p>
+        </div>
+        <div class="panel">
+          <h3 data-i18n="zoneT"></h3>
+          <p data-i18n="zoneP"></p>
+        </div>
+      </div>
+    </div>
+    <div class="wrap sec">
+      <div class="vals" id="vals"></div>
+    </div>
+  </section>
+
+  <!-- CONSEILS -->
+  <section data-tab="conseils" hidden>
+    <div class="wrap sec">
+      <div class="sec-head"><h2 data-i18n="advTitle"></h2><p data-i18n="advIntro"></p></div>
+      <div class="accs" id="tips"></div>
+      <div class="band">
+        <div><h2 data-i18n="advMoreT"></h2><p data-i18n="advMoreP"></p></div>
+        <a class="btn" href="https://www.tiktok.com/@ar.electric.1" target="_blank" rel="noopener noreferrer"><span data-i18n="advBtn"></span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PODCAST -->
+  <section data-tab="podcast" hidden>
+    <div class="wrap sec">
+      <div class="sec-head"><h2 data-i18n="podTitle"></h2><p data-i18n="podIntro"></p></div>
+      <div class="panel">
+        <div class="pod">
+          <div class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <div>
+            <h3 data-i18n="podCardT"></h3>
+            <p data-i18n="podNote" style="margin-top:.3rem"></p>
+            <div class="row" style="margin-top:1rem">
+              <a class="btn" href="https://youtu.be/YjiVfF5-BR0" target="_blank" rel="noopener noreferrer"><span data-i18n="podBtn"></span></a>
+            </div>
+          </div>
+        </div>
+        <ul class="pts" id="podPts"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section data-tab="contact" hidden>
+    <div class="wrap sec">
+      <div class="sec-head"><h2 data-i18n="ctTitle"></h2><p data-i18n="ctIntro"></p></div>
+      <div class="grid">
+        <div class="panel phone">
+          <span class="lab" data-i18n="phoneL"></span>
+          <span class="nb" id="nb1">0540 40 34 09</span>
+          <div class="row">
+            <a class="btn small" href="tel:+213540403409"><span data-i18n="call"></span></a>
+            <button type="button" class="btn small ghost" data-copy="nb1"><span data-i18n="copy"></span></button>
+          </div>
+        </div>
+        <div class="panel phone">
+          <span class="lab" data-i18n="waL"></span>
+          <span class="nb" id="nb2">0551 06 15 88</span>
+          <div class="row">
+            <a class="btn small" href="tel:+213551061588"><span data-i18n="call"></span></a>
+            <button type="button" class="btn small ghost" data-copy="nb2"><span data-i18n="copy"></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wrap sec">
+      <div class="panel">
+        <h3 data-i18n="helperT" style="font-size:1.3rem"></h3>
+        <p data-i18n="helperP" style="margin-top:.3rem"></p>
+        <div style="margin-top:1.1rem">
+          <span class="lab" style="font-size:.88rem;color:var(--ink-3)" data-i18n="projL"></span>
+          <div class="chips" id="chips" role="group"></div>
+        </div>
+        <div class="field">
+          <label for="city" data-i18n="cityL"></label>
+          <input id="city" type="text" autocomplete="off" data-i18n-ph="cityPh" maxlength="60">
+        </div>
+        <a class="btn" id="waHelper" href="#" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 19z"/><path d="M9.5 9c.2 2.4 2.1 4.3 4.5 4.6l1.1-1.2-1.7-.9-.8.6a3.2 3.2 0 0 1-1.4-1.4l.6-.8-.9-1.7z"/></svg><span data-i18n="sendWa"></span></a>
+      </div>
+    </div>
+    <div class="wrap sec">
+      <h3 data-i18n="socialT" style="font-size:1.2rem"></h3>
+      <div class="soc">
+        <a href="https://www.instagram.com/ar.electric.alger" target="_blank" rel="noopener noreferrer"><small>Instagram</small><strong>@ar.electric.alger</strong></a>
+        <a href="https://www.tiktok.com/@ar.electric.1" target="_blank" rel="noopener noreferrer"><small>TikTok</small><strong>@ar.electric.1</strong></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap f">
+    <span>© 2026 AR Electric · <span data-i18n="rights"></span></span>
+    <span class="nbs">0540 40 34 09 · 0551 06 15 88</span>
+  </div>
+</footer>
+
+<div class="fab">
+  <a class="btn" data-wa href="#" target="_blank" rel="noopener noreferrer" data-i18n-aria="waAria"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 19z"/><path d="M9.5 9c.2 2.4 2.1 4.3 4.5 4.6l1.1-1.2-1.7-.9-.8.6a3.2 3.2 0 0 1-1.4-1.4l.6-.8-.9-1.7z"/></svg><span>WhatsApp</span></a>
+</div>
+
+<script>
+(function(){
+var LOGO="data:image/webp;base64,UklGRkpPAABXRUJQVlA4ID5PAAAwGQGdASqEAQgCPj0cjEQiIaEhJnLawEAHiU3dAUEgLkZyBalnc4sXwX+P7DjangP8b+1v+J95quf2T+2f5H/Jf3X/3/6r5b9sXYfmEeT/rv+z/vn+S/az5nf7//ff5D3Zfrb/yf4X4CP45/Pv+D/h/8Z7YXri/df1Jftv+2Pu3f8L9hf/b8Uv7B/v/YM/lP+3/+X/F7Wv95vYa/cD/7+zx/3/3i+Hn9uv2s9qn/3Z1x/pPUF8b/df8J/f/2o9Ffxr7J/Lfsh/qf7z7lWkP0/+68zP5D93fyf+A/bn/F/vB0A/O7/Z9Qv8b/o/+Y/uf7c/lrzAMQHsHd7v9P/jfyU9O7+Z9N/tL/r/77+Nf2A/yn+sf7n/Efuv/if//76fiL/kv+Z7Af9S/tv/T/vX+d+Gb+c/73+c/0H7d+8v83/yX/b/xP+m+RH+b/2T/g/5D96v9Z/////5S/3Q9ln9w//+Xazrzi3XbmNRx15wwY1vDCd3EY8Pf+KOOvOLdduYzSlxGfjmnmWgY/FG8aeXHtFkUheS0jzlTH7ZyCzD8m3q8yvNaFZ1g0x9/l/JG67t1sOW38cMfHwCqZzMQzpytgJ0615ChBKdonTMJ3QIzQOb66ZAFXSUD0fUcdecW55+/zput//3iGdvuJ9M6eSWJKagRZTB0S2cOfZF4FSV5+4FTW6I2I19W+CtclsQBfur3vSExyJ64emUMSHHXnFsXKEpT+wNDBNut+tLGRDmz4tgv90BBTI9M7hrPEM4FeFqJ2XTxHiRyRq+Ovfr5wTHQlNnD15xbrtxSKV3RrmZZpqixJVZd7NHUUkL1lxzqdkqEXFex4Ptt++//ZLztVgZO04El8l/1owgHie/ZLH5neVGBGta36j+Q5khIOvOLddrFlc/LadTtaHH5TCRWu388yJSp8lzRLwOez/2e2I22o69QyoMCZvcnmSNo9X9D3P/aufudSTiTRtSXlkgd7mNRxk5E91ue0HW2mKdeh7965xtVw+S6wSCV1TuARkD4YrV3DSd8YaGtmY8ygYIJomYpGVAGH4HXkqUfleyIK0hqI2FxKhBiN5hqh1yUTbYpTiiLYlH9BgSu9wDlE18cj0PpdnGk56AgOr2S1qB6jvMrlKxCADAGuJ+xUKa2tNPEI/Osz5FQgE9IaBdLpO8NUOuVvm0pJTrKVxp8ZxQf8i1aKNRurcwNZRnvDzg7htHaAfIHLqnTMKNJV8ptxOZvZcn3pbCFHfxXWz7crzWa0vIaafOBuXpyh9bN8cDsIk+1uga35+rkpVgZSeWdzSa/0xrMfqgzwc5MqJOXPjm+m7juZrneo46oo8foKwjkHLoEQJqhz7JqV0uC5FcUFjTkesoAsc7Ur/Gc2HpQwBb/Xts7sNIY4QRJI8smx9KvQJ+jvb2F9C00da71aOLgCFbbOWhWdVBXcgJAKnfdbqIJ6GGtIoLrMy7DRea2uMDFzNR6YmSO60hckhoarCi6G79731KSqll2gzdmUymJ2o9qSnpgHdJ0SaHmyCF0EkyvNQ/IdasW9kTnSYOhc5OGviw3plpwNydFMPYxrxnHDGUvoR/1Z8k9y7q6HNjJoOOGJQlpBq+4cFyxpoNgmFCx15xbnolihWRRSWl0ej/fNhM7LO//uA8l/3TyKOErmCbpww78W1akukNlfYYNYL7v87guRPyYGlLrvFP8sB6sVnTi3XbjkkSoNEa7jF0msRSak0I6VsFw8Al1buatA7I/zAiDVckzJO7flV6eK+VgQzc5Y6rFsVpcVCRyRYVljK81oVmhYeh/LatgSULmHU0wdiwMJhpDEi1tNmyVqTRo3zsFHM0jNoTPpZljYG4JH0u5DBD4kcrtN3yK5bmNRx15rL1p5iBg2zI83M3t0FJET6/tqfk1IobGrNq/BVR6s1P7anyrRiY6/rwHORvcVYc/UwAWBVN48MSQ4684t1yUDi/dJXh0WOeF7c+Fh/5Wv00qPUTLPetm/swsxg9M+Yxu1wxGV//rBZxbrtzGo420ccSijdXLKZi16uBXS/Ty/oZp6SQOYlhrs8iRgSc8aFZ15xbrtzA1Yyw/3C/aWSX2DaP8qmMmB8X05rj2decW67cxqNribLL/55O7TYQt5el3JmAS7yKFRfJ1koLxLNnn7dduY1HHXiEhhYxp0X1vwmwSkPKFSwktVO8JLW85rRZFFfEqJLrzMrtAaH7dduY1ACK2cmQ2b5K+X5K0IwxtlJTs8EpltVIOyS7VJeF7G8HGQ4684t0TNEgsPggRu7bcSnHqzR0RafE/9rtFhESn1ApY+EvmPt125jNdHF8MMR/u/8lbEE0hD+xr/NeYPCStcYXsfJeXwSx8rpfJDEVOfS/9R0xPSjgHhQUEYAJhwVLw+hW3fb267cwl6KTIBIGavKKwkvuTJzZhHHR1oZrrnnsejXyXT1X5JH93Vr4YLAPsGcu7d5qGW/sqqXgNrVdCSHHXmkR9Ool+yPr7L2ClesgXUFiRRaOijtzCthUdCqJpdTkNXcPuY92EVOIbBQCjUqK//+b7tyvNaDnCeanIfAb0HK6/QGUEr/2s1Xv4rbCSdSJmrAaciJzx7/de/GR7vDkC68ExNP7Go4z5Y8Y1Gx0JDsBfo0anfbjNJZyhqRMWHWT2V7ukAqck5ncj5FmPn8of29cffx0rCWVsPrc87cTiACkrS9b6wmTQQvZjiu6BrbMiU38YDLbArYCErj539QpMTY4YXXbSGs7/jEbBVytaoV2dqzbW8epUk9VippXv2QlCigU1sGgV7bCwQDqMS+0L3VmNlNHhVEfatXTpWeXaw3e21EfqTCeY51G9OpJsKyxWqIx/sCN65JoHd3thKW5ruPn+oUtjLe6t6DoRA7rVHnUZXdpWEQ8j74U4vNOcnhh3kcXGSZeEEhDjBYovjaC3iLQofDAeyirH6pIqVzomU4krXCnIF3j3TBzouKCU34K8Mswhk9j3RapXj8I1GdrYXNlxVaAztP9hx15xbrtzGo4685h/T9pAAD+/LdAAABWeCfYijplvGwWcrtGU7zhy1OXHrwsV8oWBLZ/DjLcqUXE10gbtt772nMFy1XOj9xqTkOQMIaAACLR2iel6rjFtbpG6wDO/1uYrB4qBp5g2zYupSkSe/T3eu4MQbsOKeRCqfhy2CRy8ZeeJVg4ZyQV1aO9IRAv+xrwXhPz67k6jBuM4GClIuwMFfDuzj3Japd1jHISsMq5/NMAql00eL36032gCEnXzae/V2QcYgS2ZGF5Ps2WKZPpvDiGYUCx++MWwnT+eElICfwr6P+Xd4m4A9E6iX7EbEp1dVr0OZB/fb7VPQ4u5FkVgfQrZdMNp2N82Tto+yURygxt77d7X9PuofwE/t/BDWXsbq66CqcnK0cw2mvwgSQqtmn2spdTGjzIQ+zLr/CEtU38ucDHrofCe6tSc1HoDYpiA6OnB/v17F8HOlN4S0X8TRIr8gk+GCECoNunfY+Fu5vjoyy2/E7IenSdbejI+KTk4g/EYsh9m48YsewzjAvt7wd5+B9ZompJCwcUxLTbWU9eLtTgr8E7VeXdiVJHycbVArlq4ESukEMcmsKn3s4Ja46pbFy4PEsf7O6udC2Euj9MHiZiQ9vR8sZKhROj/ddlaVpDSwQ8D0LEy1DYqmqJgrM6VvSpZX7qxm422cE02736ikEhD8F6Ppfu4ls4JBUqvLEs4KPSuOGK6PL1bJiAATmKWhWkOv193IImiS+mH/jJWha82gcJFbMmueApNfQXwbV3/nwsWIAhmVNsLZpARbYS1s+WzbUywzN4tJdk4oQ6v2ugY70Mrfi/gimMnVKbmEBp1zbJPmu7GgrBKmtvLJSZivSM1vIqwMrDsbcgQHHURf6zDWnNjs0s2D0zx4Dg+G74qgkKs0r3GlT3vfBUW++yoO7nAHCwqUzoyMyOLI5rurxI9aFgw0yB2mhwdvW111nKEwPFOMaKdjmRh1WJLAmyWJK++H7lbrnUriv1kax4jAPwSeRFQNB0uc7us6jcLSSS4PyEtUZo103SsC+2svMRjVgM5ThFARffc4QsEsiNQZ6nnoyUPHRS8jh1v1ahxes+5KYVAtEz5VFNBwc8BDdQ3/aXv2rvYZ6M4Q7RrCfhP8cjLVobjqgOH2rrAI+njHWJ0BGaIbe84qRQ3wJjmgrwtsygfEWY9PrktdrR9ifn9fkX5bXdXPbRgCdkSnV3vS2AvrjcWFu193xORMtCn0Y0eHxhzefUbOwHIi8hlltTgVs01chAwUaVuGJkiW/84MQnupPHI5BTopBt8Y6HQy+qNN+1jBV8Q4HeIuPN9GAH0BIcTIn4rg7BKaEuItnmW9n9KcJf7O2XU83zYAR0uhqWKSX9m3EsJLFgZ4/P0f3swccS50Vjdq+SU0rxIOt3sh6lQpOTFOSHbUqUVB1ZMiViqN5X0jBGAdDO8mvBIIkaq5g3Gz9AdXBQ6Yc6B0z+apw6yIv/OWkTybLsZSagDm5yqE0AA68Wk/rgZlMwIvtO0HnipQ+Z3i5FYq1MiFySbxV9lJif2TgCtOVy9wzfGwqLgHBP82YbtxAI4pbitiPum6WxW8HTDns7E6g3cS6Xu9M1Z2B/buwqQ518CK3E3H0YboqVFhDmRVH3a8JDkptHvQXDhsEsFw+CJny8eyQMIH1MU5aX0buKCm2feeYMUxuC0OzNNbWtjdKUMWQlcHffN8IwhToHL19fjkWarXy1fYMeXTjsnhhJiVRzRZ23O8cpsTISSnB7KdYmzWMOYz80PETKcKT7MAfirXJl0XJA355jJEcNQl+fmC0idOj62dLL4AzWj+OtkFVf1QHE9jaUNn4utLiRzwx5XfOgpDDb41uLopF/c40PPkTNzOVqyx3oiLnSoxJ2GklH7RziZrmqDQsShOc3S7dnBOG+h7M0nYeMkN21WeXoRQL/Wz9PGZuchD+cJilfloD7s/jl13hV8wLTqI0y9SGja2SC0wVcJ6K//50mMUembqlpJdxIJ77i+uZnSj7wdwu9unp1emJNBaUie6Ys1921P4XhhDng48nEDeWGT1n8xkP/TTbFUf8dK0DNPbPw9zEqL50lyF6lpw0NYxQnfhT5UMa3vnU8j+jlsiGLk+xf7d3HEssCAqQGWOgtpLqDgrSHuvMVzChlfIRkU/tyUND9mAAAWCgWsUX2quMIKiVSlm8sh5hFyq25iO3CpFnreuqRRqFRV0xkzr1NZ1DXNt7aRM8Eejxshwu1rknuHDKUgCK7lAaCbDl3PuAsw5QT/IQt4OCE9Qp9k2Rc8NHi2t1afvlXRCKvR9EzrLcKx7GK3h3PdancyCL12bKG6kcMOP6eYBBZrwCK7WKqAQcqq5EsrZYDLsQAdPb3/Gz+8i/fVr/rlZY83AfNGktSKMTo+FSkzQIvWLVrAwE6yc/65c1P1WnG9Z6Ve8GlNCmP0BXXU90zkrVjfO+To6DA4XVj+gza6mRrvojAocECazRrFDDMmk1RsL0XUMibb30FmWfusPahgrLHjuL9APlnpg/nJvWhRUAoPNwSb9EsEuscezGC7MAKzBZ/+/9bBdnx2QVNSMDgC3+BVZLSCnvDHqDmeo7Brp/HUzh3JuFaI1Cq062anx/BXE7+hRHIAvLL65pctj5aEGOqC57TxvWqm6dEJ/OgBRdkv0qN0EullY/Lv3Q8R255mkfOoQzMJQrj8k68LVyh96uQJV5PgK6XBon4ydaEIaCat9yeACfTozYER1s/YvOPJbAANTP4wDvtFOUQzXDbjsi0700I7m3guF7uGAhjE5IbAAmXfMax3NLLxp+MpqIibeMp84fFjUWiVdLsViOqXWbF1eYdDT/VD/bjEirs3cge6pmjTupSFb37WTEkCeSZ0lX8dH1UFOy6IGkBXInI22jY/ksepKjWci8Km3QPTgaYLV44Effnvl6JtoGWH2F5QNfXmud3lFTPsSvrpA6KwjYDItSX10ier7WjjHG+keZMq6pvF9F+XiBf3b2Q9LihgSB2468J5D4xUP+wcytK+5rzAV7qZkmDM0Hutvd7rk9F4ylK+hGTaEXesbI31kIFdiiV7Bg6R1ipHU5cV5ykWFcwQHDoq5M/vPqeR/HZVqQzx73i+53FYFR/ZDevh/lSKbGs/S3AqB9ouXSRJ8E8dXZiGd9GFMquDMcebOfdE934tBtyLDQUwEexxnPKvtMmJJfRoRDpW9RPKKCGsZ9Axpi78RN6MUcDcbrtofUFK/+C3ic/OB6XKYkHc+7mAHWprdkRC964LZft6qa9N4VwMBzIYdIb34rpLhZqsmM50E8wN8/r6EqOr3/mnyRsyttGSeYHnhbHXDK6QbJGLLiMSMKVo9gqD+AquLXwsYppsqoxS5FW3su25CUyT9RacDi0D27NqFRZn8JP/FPF+AyvpCL1MeCQHL5XQQl2bucp68wUgKvZ2DRveJkRIG4izfsl51Ttedl+yj0/XzF3FDaRZQkSnlWuRFdcGOQy3IVEyafB9cEyvMZ0HL05fRbAdDxEGi16eSIQ4BjVcLmTLL8sx7aywPFF2qhJL7kILAnuxbNSpP/z+mvVPBDZgrh2pzSFwJrVF8AALsT1zhIjePlWuoZ9Z610+SGYNXohvozntyRENriMSEyYTLYf4sYb1aY8xDlSjF6AwWQykHl5u0IXlJHvB0uBZ889AfQo7KBCCRvNF1Yf2G6Jqq68sSpDsS8Nlnh/CTpBp4QaVQsLjy699tlSXSZJ+a+EETD7I+hyr1ifVI4kZuZhJrhFab8pj5ardOZMnDcSZOpYslGqMViFFsQCrKt1XvQOwFbnsFRZm6dPsDdb696xkrEmYvRITMtGF8MXM+f0urvsSp99rZnmYsIrzR3y7+Q4gPYgM5ptKOa7InhxpB4Ow58HNbbhuyNcWz5R8OZeF2G9lP82Lh4RxFHPh9CKUPSwB4MQwmwpMPi0AVS6ugz2ZDRy+NXOXUDEso0a4uaNGACKW7MZ3tXnyaUsqOG0SyvpNqylz9LHBb0av8+c+yCYNUsY7Tfsyvmkw51P5pV03A8bEg6StBD5Gl8aGjWAS9AQzlSFHTnJN+WFuq09rQQ5peZLeLeHSnkKH1AjIi6Ncy6TAWjL82z0c3YgY5j5PmY2+46+QSn6VZPbKbFG9Qt11bH9nCAzQePwoHhMh9lYgeleAqnsls5CN160fKY4XBPe3RgIpOZoqoFrYMwvTA0o75RTlNzhl5aTmEQy8BU0vdKNwHmrVwkyad7bHLFKwW5aKbbZvwR5KgkAJqC5v5VR2Ug6qpPAV5tSaRorVXpguUg7rEtPIrzuB9XNy1D33x/bitcOpMbQT/qrzGPygZpEuw7xuNdVe4vF1NMt5wmMSjOOtaJwYUKI8rQFEq9AJiZEOjABnc/6tiP4Z3CbCzVNhww6Vc9H1GtpFmVfWrl+idBIjru+i2kgcgsRe+7S499499BXToIIgWTKakD5lxpgp7Yk3AUGatlO6dr74eSXETUzcDdRXB4S4eK1mRzTAthkXPokOme7hXjbS5wDdvsJcoQOsi30jiN7LOcGLyguxdQLXg5NoROhb1//x7ifYMzOWC1YIxTTM8MASGklNnPGuLMtQDaoaVbuGG+SRWQUhHKxOoCfJPr4+WewHSDTyeFOk56PEOSKXIsPzPtXIm0JFA5GCAcYXfoWg10iAEJf8SLKlVn95U581mgz1PfoIhu/Txn/zpz+j4V4sbxW0VD7oJnqGa2Y/pSWMBcKsGMgfefuFCkz2stwcdfqGgdW2cgIfBCgouNrcefN4AOfJWFlj9G3YJVIlKz328FRCF1bukpqUsB8tqGnfk03WKd6c9pmRZoLsuce5+71DLfitW6Kfk1Nj1usx3X38QlN6kfuGr+68Qp188i5NBeuWa2LnO8iRiL81SMEOGvKeBo3q3L87RQkqRw4+s7tgrjEJfH0MDyt5dcMWvP3eUAwzctay/W6uputun/RVJFOm1yVX5zqWO/hyQhshGa4CPZmz9B0EmLa56B4VdX13Rw72iNx+mBDvcex2Q6jItTkahkZ/ATlGl3+WAtg0A1FOrGaq9ll/vQiI469hN2N5jwkNU2c53r6wMh93RDUpbI1j7yJ+F9huuFJqDtO0ZPSmBXy7KCuSl0PfmIlo8rOc1cgLyCC5mrx67tq/Wv/Q2i1OA8uXzLAySd9MLRjcNb65agYjcFRKcwYEtrNcj4gjMhJD6AbTT3AaLlvmBKoShoLZ4M/KcjlcrLybqRxR80e1fwLwLr/DeXVyEWsOmzbCKZbVGee/iXRbhsEvxOnyWJ0FG5TZPARwlWVvh3+tsfzR76O08UyIUW14ajVzZzh3N8UEXYKGu5b3C6pXe/JEgpmxsRrszGmPx7xn3bEePEabL8D6zTKbx97FhO25izdpEiNdssmILHhTAXiDNuKdCYQsfWwjZN4htdXQrZAjFb7bcifbIYttSX0nid3NF82toZXHghX/Xhg4ey2c1tvNq+OwFiQSJehuQRX+YXF6RqCt2Co+voQS/d3h4IJTF9LJOJ3Wh+T/KcVVp5U9JkAJYfn3UWdx/37P915tvmMJdmVRcGirGbQyo8FqfIflQovDWHPKRuywD0FbuiL2gxM25FgjWS0trwZKCC/e1cDmIl45/bVoTNTYG4ZyIWbd5+MTm+WHhSJ0htGkzVaQYpZBGnLG3qBqUKXIgYuNZOUk6CiAX/BoVHUQVAKSaG/rxRKWbMvy+BZqXlgDCoK+68cDCazAWf1EnBI49Llhh+/MD5YiTW9QzO841KycISWrJEjUv242JcEn++6sPtvWDYfhFFf383q5sLC8Tciuf0Yv/jWV3xzyGJylLWrAln09h1gicNaXBPt74vRrAbsoOaLi/WeE4UjffbK/X+h1OIx3ILkvrw6y97V4CrwS0PdiHFFnAM4g5qd9PNkn/WWaFnAuakG2SE50HzVnuWOmOuSsrfX0xiK8TCAA9FqfLIkT5LEZ/hX7w08csAXMzA1Be8UaHMvFWhzjkck12llvsJ2TfqEx1WoghnEEp9okVQsUBPbUmJw3PSnvEAxsQtwYlbFvcd3tJFtFc/v/LkPazN21QyTsyJuXx8phP3mUC8HYrCaN2kv0I/UGiqKko8DCrWQ3qpCpCQ9IYntZaPV6TV/DTmJOiYJJwFITnIYcTve+OWL3yyfyfZv1F934/8VCVOwBXXTEVaYRzYMmXpSgBVySafvD8mmodwIQGDWnf9x4MTKd1M5mP+vSQ6GYT0q2nBLra2AlJTGVH30OVIvtmt/OCZVN7NnyX14o3NkAeep5NTo5UQs1wX92DRb15A0i+Dp8M2RLuPQYP4S7dshoBiY36U437nKN39znsZ1j91IB/JUBPSFhmVaF6Sb1W6PTAOUNE+5ciqfYi3QIviaLsFFO+FlHRRBHtAsXTxPG0FDlk+dhcZtdTpU7+JgpYxqoJqKtrTtq8iV3zRHObIRBsj3D7GuHVfh4bkulfUWyM5lBn0zIgvhOEA4Wu9gs0o818sZ9A0fJoNz0kjHzx0qlVfuQ8VPHEVaTuJ4f+NSeu/C3J/fe6zbPntM+1ysDofvl04t130Y9vnWd3CIBh1373uOpRz3Cx4AsP1GIl/JyG1dO22I4o+Ro1i7fkLP74t1zAun8sVDHLJ2BOkFcgklfkIP/3Fx3SfBDgH8O+7AH5Lc5BfhcHjA5kYCy8DoVmm6SZmO/npnscma+NDRF1/LsxtD5fszjRlrTsPPGYjchSnAb6o2dNNbxtyvalYn2+vWlyjXF4hcdXdyPmO1ckCOjKdFRck/Q1e7KD8vUj1JM86JP4fU5YCC7Uc9y61sNRzdgIb1xlU0ZvqSvu+Yy2ey+KE7RbyXQe42lha+Npwuqpu2PLiyU/flL9xw//crfgvH/+jk5kYRRFv7vmjLu1j1pwbxXN2687Hqhz05fiJNwAmpgkLIp9HdAdxpGV12sE80xn+H30mtNJEmJKZz4A2uG1mOVQ9XDuyJPo34bSA80OlcjtRTyILUDeVXen7y7SYfPQzQG2JN6AUtc6kNn/9J4v4NDMkCiUiY+WNYPCUO1CHvmkEqotUbJYzRIRzMWaAAAbe7cSb6r7XhXhbGDyr1Wol7Pq0tjy5hz36eyNLMpDvoGGlE/lMBENxNLzbbSaADTRveQxDFFSOUFnCqGs+k9eKVYUoDAU10fSUuqCYJbPYyneYdFkl5sjygT1oqOxKqqGG2cgSsMuc2nhNeOMKcRZwJjttHkhr11eRk7OXDO2G4culVccmj9PEM2NozrPqN/iLIZSK93JApLjSwhQpi3/WjII4zRjSOFJVYwumGC3Ufs3v2LtLIpGN+PeLKvSsbCmpE14IQK5pLvg8Slv6PZhS/DceASxXpPajMcgAIBkpJ7/kibRu8FvWMxi2Rv7IvCvkoYjTuJ7s1igpi1dbimcSbp7UivFvWq+r7rTYh+oPmkXeXXAyySKQuKV7A+ZLGryAAgii1+jrVak3LMpst61T6EuSEdA8bJC91BeO9Hr5efrVdoGS0Tto20ZZfR2DVA5MrFFP/lED35Ur4VTzPT78rePPzQ34NuklK/qHL/Q1SBPiIgZKcKjSnEXA73xw+NPE1KvmBFO3KVtaWF8UODqhQaVfL/IXxMOCVHjrvKVS9zhW10VpFNHyvaYRVQocctVXPqIBboBHBnJmFZ5EFxZiF/vHutge6tj95IByGZ2ZPxuCekjkDbBVSRBHQRPg5LAcqknKmfw74zdnG3891f2Oi9RXsMlENEJrZCzr+yHmLfKeEzRQJlBMDqRflB5PV55G9HKPzZOf2RbuVsGReI6Rhvziit6V7XemDbbaWelWi1Kq/cjgwZNdFas2sngk2wY6FZVmBHk/BTbZu1elM2n5068kKgkF+F4GyV1FNmtdCAz57YZRh0StSwCZ1d7+a8gN51gtR0rnIs5z3SyXVBBTEx7B4JaPKgwiLe1G7l/rivAe8oOxe6NNxHZM5PG26Hswbntejve6CKnMzrn6s2IvD1IPtvCUp0XMLGjlvc7AIMUmB9K2vhkfxR2PmHXEyDMNDb6TGsQHgORAlJV21LWr9trYLT00l9LLuA9rhTsCOrS1Qt9Eh20XbA41jQ0BfEDNJQYKKJv9bla6UpTna9NJwCN4yjpM1dFYo4ziENcMERHUbuR/K7IZXi4rhE6Fi1/VW6U8XnP+Jd9Gt6veD0SPJNOgj9c+MZLIjG2PRP8vaw9YptKhV1RfsRmnznOBy8+NkaFquUVkINi3+Gqkv7LFImyAgRYcelOBQ4jBZXpTG+LPJSSUUHacfyor42RPIPOVuSpPsqXy7I+GjqjFjZPGCmhVfC4jI/GFktbfttLkao6tqUoupmP1eIzrQGUiz9ofQ5jgGPzFMBU504kYq5Vq40Fhy6DHTxLoIyovGsB/gqOAd0IWwVsRRg6OeTwqSP3jmGXJFthrGtYtE9kfz97uEP5oY+Hea61Sd59JqTGYxUHCI3Bvexd74BY3dCn1OiwLvJr/oz6KDERLhYukKrL34Mx4Hn/B0LeJZD8CqO1iBfSZGDq8Zw5lfXdw0PC9EAaSEdlRCOP96aEzLkv7NRUmKnbu/SLokuotY5+b12Wt56RHJMp27PKuwj5QZZALniP78z+nlfUIZ4gM4yrJUyJb9mU+1T1+4mdOjVmInDDHVT3t+Cm7yPCFA2uaNKzxhb/RAkyDdUIHsu+7kMnlD/NEq737vdJK4rTew5wGymRBKgxy2QczywKqeT2J0p4DOcrXmtHkqGPZm2YL3sVJJGR2Gq7qRGPxXhV+yt7Zb19QBVzOJwGUfno0/d9T6JRGcqF7Yv0CDiLvDa113XBHoc8ijQ+QQd5khlV4fW2L37SL92wRZGX5KUEkc4ZAtzlTnYlHIgctGvsftuXrZ3zooMYOKZFoj8SyGKBQ1HOISPoZMKbUNwh1G9bMf2JCpdzPy/ukDbu+LY8kXaqcG7tmJbwakjct1R4gIgnQ/gjvgfSTCCE+JVFrhB+C84jx2isVkGFp49aExHpjOKdONB+VwXIT7WatMfI3Y/j6WnheL3i7jD0UBzZgIb7yd/ham4FA6THBi4vaYb6P2PwJWL9J43bTrkzGgvV7lg4xc3uxg3YEAqr39VqQ/11/wd+BzQg1ZSL1YXiRH1zMWRtgQFVbjs9wPdBvkLXFv3LGRzIpP9cv5I/AzFS6MBKwpztR9FL3urR1W4SRyPsVxsPbIZDfAWbZzwpl74COhFFJ2P3zDQ6xhwEN7DPIXop5m7n8IzGYRDhM5FwJrPRTn3i3pJD4XvxAgw7gTOLPShGxuh4GWZV4uH8HELhHtrrI3maFC7drYyyZ4D888K1RWJtC1aKkWNgHmryi6ALjoH/iVWDU9nYeZzpyVKqnqttV5NsHtbwFuFX+4eyofPhRvq1aTdb7uExK7qE1pDbSZEuvtjuI8MBPtYQooSFJdy5B3Q9EyHdrIsytlQTLfyidbqltVSxIdwMYnYfH7X2kLaS+3nTZR8q1v/gI62BBD22DPqsAERfFuX9krKm9zgstVgjj9P1APQsxY5kt/1Iye3i/dvH+ft3S5igkUO+WjPOLXbzto4GXWYOAQpAsmaaaN1E5hsH5/8/DDedpruZPE7mJWasP8jUxTBadPAEi+yeK8J5pWlX1JWqgIDhfSfXgfu/k0ih2m3BEPYwHwK9kYLrmONFF6eKxoc6B903dSQB0G+zyEnRkZ8ooYe5INFx+f3N+fJr0gjUsWXR2/jM5r7+WL9VtCYo/B1zc6PPOUQ1acJppC8TRIIr4XUMpVkvvbZqor6LBLIUu6i1B+vG8A9VR55x9xoF5Mwug/c4fX/heGPS5NCbpmfG8zzmWbCR17Wrj50t/4koECkOLlKefxVMC7UV/OEJHTr9xZcc/nzNshwh5qwsxSBLc09EyUQ00T15/jC8lpz7YvYn25NjS2VJiqus6CJYw/g3WMKWyILmRWqvUpNRsog3Y0rblws/CNvFeFrmW4C9Qx1C5YEPq/uLWDRASBfPmuyomonjPpmaqM5dNqzidSdMuQy9IU2DRA8R6NuVHtRaKrE7FMY2L6OaoRq3GisYnQdv0WkFcjLE1yPo6ds8H44QstL5NgWFEdYaGV+wbQVOqqhgT1lI0UIiko/5Rj07LWvCDPtFqhJviLEjFtK/S9jhs1Wsw8FdU7On6QCNYCdeNJRVdHUC8oVautFjHXgCfpQLIYOAXyw3kQEZb61xtmM4NQY+scxN+jiJHeupswu21tndlTRk9Uqvhe4iLiP8w1vfnZvyWRBH5k0AtoDUx1T0pcAdAfJ8YXbtKUnkOF44iAdh7G1M3DzRnIch7BHXPHPg3NH/k2g8OMzWj5hI3B+T2hyPPadUaaAonYN4bFXfWxwJiKknoIBZdAZG4I6h5u9GV8dk3dIfe/q6bvnLOc6jho1ckHEQXhHkdMJGl/1AZ8dACk+gokzx8ImH+W4X/EdhKonfDoJNIljsn3HTLDzYfUDKP5lheQ5CktosPa2EXRE2KWfRk7U4P31/Xb3krsNScYp35p8NqdFeU9XoV3Sc8X7GWDh/riYYIJDas/Q6d3fuOih8FuUjk59M1lJokpRVxNXfzEni0shRgOdB55I7pXMTz7ay3OIE88xhLknfBVTGNflqI0v89xUgtXbJHbZcc5rjjU5hTnmaqBrsIBHFW3hv8SsTD/kYQP0cxRgxjv/LYiHRyDlTFFhzQcHYVlp4dOVpZn/RMKveUV9Km29KJAzXdZnBCAu/a0BytwoV1vii2nheKBi2QT3lTymMWYI0WPUaiJmjpxe88aMfAHo5h9zsJ/s8cmAFU9gfTofNy3xslZEmjv4eCyzfmM3GmuSe4mfeFji8+zvaX+ujXw0HwJjJw1W/ICYAPJiYd0UsDxmWuLs9pBze2k/YSzi5k/Zv1kLI9RXhfintu2PrN2GXiedQqABSuNP4+/s0OjPTi8HVz+uHLVqkDfATQQ7f58HFkMdJwM78iXoHZ9ChTtV0sI1diBuMWsTxA8hZdd06rPiIC9DSlnDOBLzHf8WurnYSicRusm12WmeW6dD1p7buzAnpvb6UbwzTz/qtM2DLw4NP523WwLEbQuScTE1XXiEaZAi4+7hISaf/MyTrfKZPswh/zRYbrvk1y8+qncznHt4nUpYpxw8TUahDd9cRNBMhwEQeS6O7TgvmV4mIG9zDd/FdDRe3zC12LNoZjDt4ECaQDYeBWD1iFCifz1VnaV2w/jv1ZxBaJBDTAoJiWcJIesxk+X9Alr8Uys+9tiRVlVAozemcGOlYeFfraqZNYFU8NoFUxdz5Kpxp5+LvwAYbVKZ7zkyG/dML/cK6faMDuwr4ygIuvCDO0McYMfpQLzPij7fPfGX5Jk9T5hJy+GFbWjUKWvyDKHbhz6+SHmZ8drVo1x47vcqaOvQmBWcpVUekbk96ffkU1b+p54qwInwyNjIiF3n3SK/c3x/IxpckxRSnWIi7UB8nXuQPNrlnrFgCEWUurek2HCc9Oyxvb7ZhghUjl8gDOQJsasxIy7x4TUmiUu9OVbv+Z0ge9l85jZoYACwB6MQ/wkYMvLmkaicRWKB6BCrGF1mj7W4xlSK7dpQEi87CDhvCAqlI64YKZTr4RhDWFItNMBvbuaahaMgH+3D1Ts/TvQb8Oi8e2L1+cVOTsKtGSyH1rclshDyLGWyhB9zK2gNVRskOjxHAAF+H60zQxesmVC+zu7o504qBNxkvwbSlimEXsOX0qrM60nGuOuexNNoddcxX6DTyixaHBFWIa/ld6Bj5HBwvPJie5JRnz285eb4kb7Q6Qo2tGfH9x3wmxKZaL1qu+Q9fRjvMYNTSPpsKmbYU54KvpODto3uIpNXoBhwLnE8GtHvWNdGaz136fn73TC7i7F35w5gASwnWw/Eq0LpedHN8ORBDHOgEZAHNP0Lce54iEY8l82xSl8nq9Lv9o+UYBLDnpSs53axW2UnBI5p66DjoIeEwGoF2n3YiNCRTjSA+Q6dAUStSMz6OMkIdwy73ZT4tEEwdxk9gBlp+ZoiLQVCX+bCIaen9xeNrMQVqUB5T5TZb/Ur5OhSkiGr9MGBT9FkpJAMjWaxX9UDJ5IFOGmVn0bHM0Fh8AMT+Ev6Da17nRP8AB2tb588SFyI1PlcjEUHRhij1NCZGVg+PVvQi8PxvlAOcmRL7I6lnjJB4Y54+1sA2ExHaebo/EPCxtvDYR/5EoRIPnWuNgRwRUSDYB5gYCcgMGAQd3rQCOj8p2LQjYdIXtjYiOZ81eFmCdnnCfbbPAZ31Cgq+BSsRd3ONQEAXQVnvba1BFWqAKuDugDvdWAdgOSGVXa0q9r7jAE+JyiW1Sw3w8PZL8VVFXCnx4nQmb9hMyUa6DjfVZ/Iz6EmowSgZk0Wb19lgAAARc9L7+Ye6m7GnY62G2FRe4o6U6i7LstZZQMayQjE82hjW/1hUFBJYuIM8FXouE0a3cqTxgLbVbEDZBqbbeN/4JfpmZ6S5cUwc8DUYFgK0Htk2AtWwfFsBgpSuJWEmn42Wv4mH3k5MP+9ODl4ywomMeVIroFFV/XcQ0Upnm9DUlg+rwQuDrOUg6yMbgMUZM/AiYKkaGw6TB2GvYj1AXYvnusDvrXUjMQmWsbOH7sW6Bkdl2y/pZGIoG+UxLp/9mcXJ4RjDOSjzoEB4gbeBRhS8CaPH+iHvLIjeJBuGYop9ct4Gw548R4lfijkPNIxLSKbzCCtHGhdaumsIPj1SFz66B5tGHUInheFseUeOYXofxKEC63RZzQEMsPdKUlXECZq7Tj/1rTX5d+RbROkemgFIp9aUyql4paFf+aNjBiJ7+/A2+YzK95JtoLF0b/VHUlmpm0ZkyIE2E1VFVsvkoq3UYawzG+dXAWM3307D6aaJI/BPZF+mFQ+bYrz3Wm+/GSWJ8G4jRBvrHgtpc7cVcO6jdHJ4bPPzkFD6hfIbGaJDuCPcDOs1IwR5pZlSm/1di5RQzA9/6ptBqMDzQxNT89D/BiibJWIzb2jSOv914r+P/wlcVdz79w0UYJ82XtIIZJkt7w46CFVc1T5UdKgH2n0yTo22lNXfBRXnb0gwK9zhhSoED64ePFLGTam37j7KKdibkNdVHZ6vTcDkxDmMk87XiWyo+jEI3fFb8S52xyRAoFM0PYDg4DTg5Sl1mBCgADbl3SHn2fRpPLOuVczjyxdOm31pcqMoOkOVaY9yGeN+KG5Z4K2QcGTJASw4gVvguhp1UNCxMnRG6G0Tz9Gr4z7pcMCV1kek6koQzyrb5nTjm+w3yHswBgb8zzpAUoNM/r+R0CPQbIgsR6K5UfM6gnyEa3xPmqSgyg6TyRcI02pBZCMF+p8+qAIR2IZzehDlxPFB6x0Q9Ef1ousmcyhbmlfntuAEDSoWUBwHn/luuFHiZTPGvrTPkmiasI73F86yJIMi8jG0g+0qPO2tFlYcLyMU28HoP5YcKktpu50EwfMsHiTFyku2ioK82+MfTES9Bt5+taqyknte4MQgn1SYdQ3L/qQGI+OqX/l2jW3ysYbZ8xUXqJbeAlELyMwNBtf71lwHOFNrOHLwzl92tjBZyuLdrlDyRqCxjlaIy6RgFIU1eVo3a8Y3jx1AnAuLkC/7rrAp/WSFJI1HEwWqc5CrIxJqJtB9szIEXmmunUEdor0TaxNQmeRivkBpel0W0382YKpUY3F6jUfF4PrcLJmJBlGSvTgIT7yQZDIaO30X9Uk7gOej/K/+U5axLUtQNr23oxxW1zpnLPBUEOin3AtaR+AJviOo2FpFuILJmglbst9hczAd5yAn8vl1kIA8rJ/sOualFxMVcLixfwAAXNN8GINaEd21pxg9XfGYQzZ7rf454pEGM1UOZnPCG8N7yFOU4/iMWeHfPcJYbVXocErbS9QcBXPJcn26b9pi252eq1Scwai2QkFDVeGp5Yed/I8KhThHdyuouP1oZ8zvDR7Cr1Sg8Bw/F2zQliRlY5OXYhEPtErjEBvV+LCyK5BKT3beA/Y/j0Tm8hYw4W7r1Z1g3V5+bmfTveIpbKWvbvBPvTvybfUPpR+RyZnxBEMfoBlbiFh3k56GveUH+5afodaoupxUS+pA+JD36QYl5Z4ZnTeublaloP6Cmna8cF5h6UbMxKJ1xVG6BXOxWM7u8774baTe4gyWIfLTtuaSj+aCOWQeWjUPftZrLzq7kASL80+7ewD0I8ZFeBPsWbYqk5t5ZkQC3zmXK3ubWFldEVQ6OekkLAAAAAAlaZ56RSCj+TAmFEO3qPJ2LKWgl0+Tn3d92CTs7NU/Lzmp3GmN+IexBISkHiO5ZuuZwl/mTNd6MdJmwbVVlEI1anweRcTjQ0SRfqYe4jUyNLW3L98U/0xO9ii2MCWPqsyIcYGTYcW/hH6y+tPTd0fIlLc+axh11BAFa1yrOPtz2kba5q/HDo/b2s5QVWl4hU/MuOZldjayfd056Ay8EcVf3WKmurWANupxquqxiOzkiL9/p1Y4QtEIn23cNr+hvyfzpXKn/jKY05SPlUMUi2uTA5AU9Q96B87wMqGCuz08IC+CT87u5sgZKYDFFhnk8FBmRLkguvDe3RUeWqME4bP/dLJv0D3Le+58RcLAABwbkJ7PVLJ/x+pQ4tTxz+LM2Xxy0T+BSWmHTF6TeEtyev17kxwnPLZOH9O62l2XMPTTaekXncNB4x3MmSvh0+El09D7JGJG+mbkGNxN47pFGovywXduaTlYJp149b2v09L9KHUiw+So0uxXZNa8qUWQMLgCeNf0ExZo8vbnBvj5bevD9S3j6PhXz0MsqHPyGhlajDtjup3gvtIZbgHgYFYIFLJzp8RqxDaL+MxwAlj2lqrWA3pj0CQEr4qME3vhfqPobte7h0G0k69EC9bilaMGeo9dwRTtoY2Qc8P0nhiETwutDY8+BQDoBkWHMQAGyEdvjpJKrCwCMCtvpmS0FXUcG842nxlz0gmga9jYw4JPyQ/PpCAoAAAt5f+sxQTcHXn0S+EPKhD3co+wqsKfuO6nJ2cE+BqklviRdDcswZnxrfF2R4egnJ/KjMuhwLhM9N2ZKGhUYAoPHiyorK6wEdr44iHjTRzLq9CVMPOoAnvkHY+d1ihZ4PDgC0jDBFX0WALRbSOsEiQ+hApFV0ceV/3lVubzcK0Acftazi2krukkR8QEhcXHMUD8MeihjGv42DhH0k57y9TVEFbaeWX9C6qZ2kAAx9NOiEyKGOTsRMgAmpmBn1uA+hv0FoH+taO47Ixl3VDL0thrNZbLAdPsiTpkyOW//6aE/XYGx4qnInSVbhIX2m/jefoDHafP9rvQfPwKuuvofoK9U+1f/pdLkFBE64fiowT6aspMQgkCIAaC8hros6NfNsSjggpMac0QbkBk106EB/89BNKOFxeKi+TzE6TPpb2CaKCQe4Yo0jfalvVKYUfoNq5Zq2mhokDuyWl12m/bJZZv4KZWz4NunJb6DeTPNRpo1QAN0u6wZu9SUMoz+WUWEaPq7L/Py1Pq7eMFa1Hs+nYBjWOnmkQHNkNgmM3b5Kj2CS2qwWpCv+zc8CEIX8I9vPdxDg7fGPhdbkY2UP27/+u9xVV5yN9vlyvWr5FyxvUAZjwLiZdf2BagZmEyr+I11PB53I4Q3VAuG5TeJNI0eFVzEQR8zvRvOKgjKj4vv9Btmy+/SNVhb3MBSGlWTBDJHJuVfYwPNmnBQP1xjTSV0MXRxgXABTGLptOWeJsr/s6iIu7ahqA8fUbOBv+o4TO1CamsVpzu/qyUt7kkb8wS3n5MpCjPgdvvuavp16Aa++xtgqKmZDUV08uTGkoypd4jUyAKdtRhCP4AOhHYb3K30IeigSlj+LExmLbjAKnLX5vAoJw65xlkkVtjNfSaznip0ckl/ek0IsmF5V8HBApBX/2Mk+ybzUglNDabSsxAF0VkZiIWAxo7usmRtX9aHObJgpxSn/GwACHt9DzBht/MyskWIVhZqjXwIWVwm/i2unuo9jgHUBGWG809WK3ccrp9vkGOUBA8lisO/xS6huONFDy5b884/a/6nMACvFtvUCPjUMQZvsXiYPsNANE8cy4zWPDLmisZjsvgLPJpfgOIjjrH8yi/ZUrSPnhvMpSgqaga6y75Oco80AujImUbcb7T5gB+VGjptwa+PCiNDcaJNkmUPn3OzKlhSzgB97YHLIcbNTsnxyCh6q2r7a4IFU2qw0fEv8UoxD7b0+rPTiQSREPqh/XQUYCWFEXsOcUFgsgCJ60FNUkbGW7TWxSaq/UK+Bh4ZaMA1Bxvh85fUyA0eNguB/0EQSAyVz/z+M0pgnpCqbXa/bR3SWAsltA/I4VT6Iw5s/dQ+ba2M79SV3vFlKw8lOlUNqR3fEvvlUf8UrpF+d77F1TUPdtP22Uqgl3V6947OXN+HUZyM1dfudjcaWp5zSeMN1DxABJfmsZcjByLKDqn6bbJr4zs2LxdgCJX6MUVYFhzpEVfVvMACP6+mcWbowAEYZhibm/uXxZgdUvmVBNQNkZ7M9dqDsn+BPa+yzXBcJGsAD5yOkCsfe9ENbH//Gvz/wxmrWwbPY2sA/iXrFH88D5wz1jo7QQgPfdsnLuEVjKF2zIoMjsly3sjeDrH2NKUB/5a3pJPSUyDJjwfXZSDAU2QKxtaKQ+5Wmz0LMJ2rcXHoPCp94wa5jNbYjmqJTOSqjDpkAshW3YVo2dd6JNlLauKzON6QxXQXQ6Ob1AAJcOu1tF4Ft8Pk9rUcDmC9Zk5IVHhaiOTd+PUsXe9ujg/dwv52Eb1PF8WUP/ErupI24LQB8A7zuML8EAWbNmw67RLJF7C8v3Hiy2OWMYP5dPKdcCpNLOowPw8cVAo0KuRCqEDpUhmJ0BGYWJXl0yminddtnB/uHxO0o370/LpFEvHAmTEgRwP7rSeOmN3wA1APAhYqsxpiWy6czNHO9mIa3THThqm55UR5fOAq0s7yWoBdWqtgwmzl2KIWdRWJqZ0BnBmz2AaWRcajPH9wc446DAdrwJtUEV9TckVq+CZq1V0UfaOb6eeumhuv5nMpg6ViagDHWmW/6WESCEIMdae5Wb9jW4MDVcolFxBKE/EtdAKjfcU2mKBoHvW7nfPNysfc5FAyoTCpjlLmBppkF5uIN2dB6Cr9OxnijgCj1wwEi96SNEMTC6acD8sDz0/s6/6P/y3cL9PtJ/4yTkwIh267V3SHCcUqjpntsdS3gQ1+MStX3z1QQIDhjAKU38q9abRqViuUk51S7TQEG7tDcIzyqjknS4XocVtPmBLh6vi9DavcDy97maAhiTlGfqMtKWw0PPIcb6uAFyqL2cvdKdtvAR9Zp1efq0ki/1SPXorha5Xkq+MY2WID7sD7GSJjeIN4KyRvS8aUwWsx34FmDLG9130aR+XXhPQjksGBPj9qKm8pSbn3AX++2hYULRaOYmb0/PS2QoY3FW60UgeSXaNFPqGlrQYrMy9SvS8IOGgTuBePv7PTNwn10B28d5+dR2o+wiiwwfJPmEdJzR8VuDSdaGucg83k66m/JajtIE7O010OdFlrA8+HkfVCX0LAwDKqAAeop4J5O5f8cCUC9Z1A5yOfh6EuzmcOjwLg9iff4s2xMtzReHcUc47+P7g3c1k5YeH5m0EF2Hd7XnkuhAmLotSM9yYa/MDFShX2i8bnm+qbR/RSKwuzJoz5beyFUJsxQNjZMV8v+2aCkx4oy1lUp7V/kJeJ9z2Fl0uGsna2l7qaMn/yoqcpxRJUdxOZk8A33UbzygVuRHRPejI9OfgvTN/DmryoUNJ44ZvMv+zxRKhN1O3siVZ6fE4qG5Iqcc2aEPniTA5HEklyToAKuwH7W4DvgpJxUf4v1xCcPjC0mWXNkmf/VxgY/Jg0t30paYo88rKX4PXEAl6W6hbjPHdtufVVq7PPUHBtneSBQNE82ljPjY80oXlxf5Y4ChPPWF1Seb0ek2jMv7PaACkAwHLMlTwWG5AfcC9QVghzSOF4gyiPsggKIn/j059N0TaXeNjVBUo+h3Vn/qkkhk9UIzDKgsSrCrilL4CCsd/czQiweB6b7xpgeGScKo9M6oIRP/qNltfKI2nuqBayF+tOdWGUyIWhZ9sAEbVbmXedo7aKHp6ojpxrxlIWaYtdzrQ8Maaypo2lP1JedDuvuW9JtPpYQmqlWIkPRDJLA1S+vycLmiXTvg56ADPCq4aH8u5gcdcAeMp7QzE1nLBk5KDapU4Cwelw7LvGGTaD3YJeJAwyZNulyfCuTNHWfsd51gJGZZI/xInzbkm+wUoVNdubUkoG8tMuGrDVZeTo5Z2iYZUxK4xihjmeqxhB554eBMxGFyiHHDnlq18Nmv1H/5cdOfy1j0r7YeQTgB8sy8/PoYXhxH80lRIs0YBhw7xANcd+8ZP/etNUB4BjjBiUQam7Cg/baWFkSln6nvA1yOoY6Pgn5PzPwDUrb72w6T9SVrmxzdp/WGAFaLYZPyi80UcbMeL6fpoADlq2XJSagMSdqjXgPndcXSK/fjTEbCMtNDLYm+iI07i7gZVwlne2fYql4E71BOSG4MMdxiKuIqsqpYWbO5QyQwuFSJMxjzGuHVlwiNw+7ojeT36mXXl8htzW5nHeji3SEuvSfB7RmOEa0Tzjz6M2TdWNVIXN0+fdsKxJQoTeyLBxCA26q+Qmp6Tr+TrQLyZE6ZHAkfgEa+h4Tb1vpfktFnpVtr3BEBK2t4tBu48RsWXHTksFEpiy4PRh/KTlnvb0a3iUszwskPw5s2KfppKwp8w94WO1jwcvKe7NjUKHqrU0GwsiKzlSJ6+L25SuJ70eQPj5Qo2KvRT5y+Jr53IGeuf+Ziihqq1cdz/AKTwa3b2Kg7mwl+Gicmq2MBsh854hc8UNxHXOGARwpbjFlubkZyQfxHgngA3B9FIWV5Nf/INH+Fq5fz70z0VbRoUKHaYpe/j3hgCzU04QNTwM70f0midHpWxKmPgFTQUo2HmYSMrDumlhjaLbMXeMjxsoD/x3BtR3Y41Zx2actWx1tSuyGGu3iyIeS6c2r/TT0iT1P7BgnyPrx9tXgTuuRuM0r1dDWiQJlmQbBEpJ8pMmJz/BEcdNXw1jyLTCotUe1DTJtB7eDRjUtzknqqr7gPttnBlWHEF1oHtM590AF3HHKJ3g6pTLJLLqzcjY5IOvhzORj+I63HN9qPemFAh4Yo4JSl7GdULc+Lom/Aao0aZE/QbuUthxnZWWKnFod6YRO4i2NqsWH5St/lK5OXljspy3LmM9NWY15Oc6CQdW9UDvSM+s+XbnDV3REQu07/KBnwDy2xBCHwuoxLHP3C75Sn47mBifxN6NL4uYkXaHxr6W+FQy9RIZzO2X3z3vptwFyH9kAyZfFAE1AdTmDhE8GO+dW5Eb9HqebFsIJFl5sdTrsKliIisty20AtMFOzHng5WErUOILav3VpOt4zVxpHD9MMW8eDdpJ2iXbrWd8aBkl4pGvRy6F6KdQvhp5aJdBsll+smNA4lPrJbRx7DVvFsnZ5Psb2vPVt1C0uKgobawman1i4jEP35XclErm/g179Jl+8BJf1ZZJJWqo/2KFJGLbiakdLuZPwoO+Crr0jpm/9OFQUTCxSLqokZ4L2rX/gTrZDpDRTagBkGhq+b80Tyf/FnmmXPKgSo6G8fYkoRf45SSxNHx0L0Kj1jRzugyGPxUX7kIvStBDQpVZ+SbEny3QGggQQEhwGz+lOa+aeR5UoPW7jkKkb5ZGY6UjUMW9YxBGgRSInxiXfmNgK5OCZ+0DSk+9vcNIPDrjPQ+HaEFa48HAcKWTo1fNcQELtGY3fRVfpElnmYQy3rusaJJ6hAFLHWDuQVaLmJ+jYxwARe/6IHb5O+TvP/i5dNg6zjXY1HAu4tabtgpCRIbzbXVmqWXkoRNCpV9TwkGXfCBXZ0yog/E1Fik9t802W+97dP8OB1vG88O780Ru4/f6WPhDN77pehKOiR0gewzZEy4CLWVeVKEMYU06bdleHU16GFi5SNMrUpfiReJXOLS4lhx/NOnbeIKt56UQn0niqoppL54LKLQgJd98S5CZBIOkhmMtgCjs+BcoXPj6a6DikfZoBs4k+TOjTpyr2ZLOOg2AyQ6/FK8h0vhi+AZYtBTfobQoVgFtu+HDNXzLj82aMNRSleqW4XJ+KncHMzlgkoh+d3O0OqOCeTGrkIoqRHhfhsXGad1VFu4FBb3HchO1wOY8+5LzMaoFxCHpnyicV8zUYs6A065Fuan/BFhQpglHfsZRvZKXxSDKaZZi/lqlGHrnZLgtUrclVwpP/rgAiQBgyrDQe177lJO5yb/Ot4bO2+1R0YgryFL8HuZqszToBwjyIlH4hs8JNhFK3GjI/a9MNjddjfxMcp6VccSKLrzScia+acOwhICgsw60A1pVvufhvSK4hO3VKfuc1MuH9HpoCoFW2ul0ZMWn37iGQ2VYtMlHtCntqGBZSsF61ZaZW5wlsc3XY79gyzGHJ16SpFTOZpMlylGWg4ctvdWgeZDhlHCucjbD6cEJfBMVUD6Jj4oWQy6fzFsLOQVUtC7Y0ogB1JEccJCdS13Y+/ciYnQXPUFjgI6LaUPCi4mj6Xq3bPH4m/rv3D5pnyXFCdHKG3elQtYFN4MB2fl1Ptdcw3T/9KSU8Ev6HXQQzCb+x4cdovBsQDrhQXlKPrrs0l/VsTPTJH9h7mzmDqfdnW6w/sUt4W/4+9avmoB5q72jWIclY6TNlQ2FQbZ+C0i4gr5D+r4FIkeXPJGvi78lJOoo4giMB+nvDPDsmhFB+p3Iv+fe5bjr+vRQyJnmSZmoAYQNVM6zjyoJ0dKght+AriEWZbHLwT0Ga8Oujed2kqrwefzDy5yXPQ09Ugz25nEbKEUMechj3hVSurR/vX7flBjXsDTvp6YzcwDWWCeLzKopiB2N66vN81z5KtdteU/t4Fd7+yxwkpIhWI0aW6nAgUM6Kj9MC+LVZcwxO1KItaNIRmTx9YimtIcvfSPX9xzYiQgugjsOvzOmDRisPindkYiuDKuk/lAiH6X/BOkDbquEABkdzS+/EKxLvHc9DtpsXbtgdjguO9Q4iGHw0DaWBDi0pDWQkcHADS9AfRB8ymL+wuiri1q97nmixzd3oPFQqH2bmxfh+GfvOQPphcV841JVTEmTvOTCtvtQwK+1pZp0z7titax82cvw7oEotJvUYo9o/i7XD1IJlpGph1Xz44BJxsQAymhYS8MixDbu/dhHnuDAOC48qTqQq2wkNi4r0QuGmLexRKorwFildRJsaLsUSjZ9/QGmgHFmE0g7pUq8rLvAtA3+ts6EMkRqFsHFHO8Z1lL08eDTeAljT+/frE006keChDYptd4zP2E1n88kkB8LJd0BafARdXtZiEbYzjon/avAKzdu27SLvrldXjbawIbVrSLtGwv1VCsICQBFOFoSVB2b/rBtwRqSrBwKeaP3BoYu2EhLSlepQp8GtXZP/l8UOzxso6/ELs6EtmWSlWn+0qQgZZZ1ypqIupYQWEPqjKFXNpZgLLuHeSMrXGME0nxOqIOApx9PaltLmoDB5OOYApudfNfqW+BYj8wUxrl5urbyZNnFSXy3N2WdMOqvNpRf5T8bbVgE7WmCrbN/xvlSwcsif/pNuko62vaI9RPFN3p6UPU+dQJzfykZaEasTD5iodXpghC8m1lnWPR9FKTBwOKJ8Xyu00miLgUKeWDcA5F6RyKiN7SDijnslKZbRD/1LyO6SLNuTz65Hh4N8zgZRi8AgwxBLBzpKFG9i3135CrakA5yC3HLTOP3cgJ1ABWhsQpu2myOIoatWc168mJD+Xz/EgbyMAnehQVus+pu/yB9vQCmeCLk4t/cs7LNMXjQY+IAAWsTuO0dibwUHgxpIm2YZDxABrpBpPBZCi5HQ9a3oKXc+I3k1NefXt/rn/j3b4j982Twj8YhBRxL/QAAn8pixRy4TOwRBNi8t9nwQ6/ZlJ9VysmpU9LaNvflE+ksBq4UhPE36dvuYxzi62v16DcMGBert1EnQMcOdgUU6IVa32h45+Qm9mTIhPI3YhinRNBsOZ3b9nd3wz7oBkKqg39QgPZYiQMav7nzx5TvKBEedZzUKlncEFe9+Sj52rEo62Y5bPJk6W0ZWZxW6dvrBiWqKI3LWhtjTHVB/Z+dOgm84ZKtUb6q+qIW0fvC0ZCWvmxeFYmoqyjELwVxq3E0JyaRVZglnPi3v2TxVaE9RdiA8q897oydh4pc1ga2DHol7SaveOmk/dxMIHDo+46v/6Q4J5lVUxfnBq4LWt1SEtk3tBaCBCvaVmqmFoSgCZzV1x5o4c5HHeGhtGjuXrqHcX5HdumUOsbh1aZrd7IU9gP10ERBovjiJsk+iceJPLsrlqNu3jnA7FKHgPA98TGCTQn6Yf4YhdFCtBmsjUt+BBSJpeYp7QtGlATWXnc2rOmGldfCZeO93gfGAkvyKfjel9U6RqYPWFUB+8N+xbXL789MT/GRk1/gTiPbh8mbNSvJ7ctniGj66IFnlsz/vYWgW7gd75X0W7+9ALfHn3c4NUxHdRhwi8SQSAbb41t53FWYVaRhesbppveGxXdMTL2O4az8Ev0f/xP1WQ/88SoxtkICX7eq1C8b6CbzdfTvRpdCcX7fG5Lf59EF+Dt0YJmKJ7lEQqTYDF9eytHYRuGE/eGJXDQwAxXXVzc1ciRWKZVkkJHWclTT/O6+wtMXDsg/oyV9fXTp48kzVTaeLHBizdJA86952PTc+7tQSWvPtnZQpQLzKB4NG6UiXODXWx0/w8rTCftihOlFkgSSYfqV8nsrtUo8JTBmTcpH9tgP9gC57t17pY/qxYHoAHVtBF/Jeh7geNE3RQfprdL6qIkVpKs4ExeI6FvX2qwKoFns7SWJGNkg2aaQ8iTBX+2231VTP6rgU3JVJFmfVhSNrbeF/s1e7plubuHpJtfIEiugmjUxXnvN8FtUfsBl3WcTaC195N6bNup0RMJ4za0hn9Tr/yfjZc09A/Bau+us7ghgl7AqAsVPiLQlTyaoJzBf9FpRnBMwBk6oj3rheVMFVc5gggYks+h7+GpjrTsFdt+YekGjEfdgtT8X8D1Kbd47kz3D0zt09Gs+boKZoSeB19Y2cwI3oC5uy9V5B4zt/4RIPv2UyQ31czeEsNctGX6SrlibNAitMxIi8gf9drpLs2RHN+Izlx8j/w1MdCqXG7sIBLtkyP5AXP/51EixbQIRNCBbh3rAYNoIG+FrYI8u11uPL569mKA68Ced5Y3KdvieaFcUjpQPORHndGdH35Jg6Aa5RC0VxrT/Vj98Kh/GJpXLqAsj1wVapapP5y/nxnC1aWEAaLQmlEp/K9QI5dJbZh6PgX4c3OEVPMtFYD1J55/nnj/fOZg0f2QV0j+jJynLGkgB0toZ1U95WgzXUbzxgUsXE6F/uC1C/dQNYrXjVfxyPld+Nvyg4Ee62/3o7h1TYPRnSxA4HHU7UflhnhoPB3nZeq8iqfFksO70/34KYZVVoCYsPi3oBdUg9kCf++7sh9QAkbsRkZFXrpRsj/5BjJREOSM79ehn6TL8fpJb78FYvnLSoPzl1v/RSEw8M7gO3FF+6Q7lCCxgrltqc9s0uO3ju0KpzarPqoeBA16/s7xvLr736UlR586fGTgbBy/cKBnidvluqhfMwfxrL1qxUfaBU4LpMjtq5XVsgyRFHkNeWWkVEXRf+rBjuPMQt52k/l/FUtNYJr4r7vSglQRYdTLn3mjpaxDLRSX9kd5JP190dCV72FtEGNn0NOItxEW8hgftFCMUCQqzjTvYYhLdi8ymLMJal30MjWoreZcNTDFgwnxBatLtSiDMTi8ReMouO1ujh2D4QqaC03InStb+A6eXi8IWn8D3NLjKKDVeZr0ekAmZPGkd1u+e5P7fmaH2oxVGfHmWqo0//eLaET/rg5shgRHc8OfFAHqN+n2PsohDm/ewJ0Hf/Al8lrVNrBqtM0dDwI9C1Yw6JZ+9+h3PXGHwoccxvNJrWRpEL4IW9DwMw1nwQsYDmYnDLpbTn/iWMqO7mMKSPqZ00fK5fkaWeOWKmxcBRJalJ97TuWjUnT/LjxQqtuYJNYjPKnlR2+TQqyvRyy9JZLNffiHGO/iL/zAAAAAAAAAAAAAA=";
+var WA="213551061588";
+var TABS=["accueil","services","equipe","conseils","podcast","contact"];
+var ICONS=[
+ '<svg viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>',
+ '<svg viewBox="0 0 24 24"><rect x="2.5" y="7" width="13" height="10" rx="2"/><path d="M15.5 11l6-3v8l-6-3z"/></svg>',
+ '<svg viewBox="0 0 24 24"><path d="M3 11 12 3l9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
+ '<svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M8.4 6h7.2M7.2 8.1l3.6 7.8M16.8 8.1l-3.6 7.8"/></svg>'
+];
+
+var D={
+fr:{
+ brandSub:"Électricien bâtiment · Caméras · Domotique",
+ navLabel:"Sections du site", waAria:"Écrire sur WhatsApp",
+ tabs:{accueil:"Accueil",services:"Services",equipe:"Qui sommes-nous",conseils:"Conseils",podcast:"Podcast",contact:"Contact"},
+ hero:{eyebrow:"Alger et autres wilayas",h1:"L'électricité de votre villa ou de votre projet, faite dans les règles.",p:"AR Electric réunit une équipe d'électriciens du bâtiment forte de 10 ans d'expérience : installation électrique, caméras de surveillance, domotique et KNX. Devis détaillé, normes de sécurité respectées.",cta1:"Écrire sur WhatsApp",cta2:"Voir les services"},
+ stats:[{n:"10 ans",l:"d'expérience"},{n:"330 K+",l:"abonnés sur TikTok"},{n:"69 K+",l:"abonnés sur Instagram"},{n:"Alger",l:"et d'autres wilayas"}],
+ forTitle:"Nous travaillons avec",
+ forItems:[{t:"Propriétaires de villas",d:"Installation complète : tableau électrique, éclairage, prises, et une maison que l'on commande facilement."},{t:"Promoteurs immobiliers",d:"Des installations électriques pour vos immeubles et résidences, avec un devis détaillé et un interlocuteur clair."}],
+ howTitle:"Comment on travaille",
+ steps:[{t:"Vous nous contactez",d:"Par appel ou WhatsApp, vous nous décrivez votre projet."},{t:"Devis détaillé",d:"Vous recevez un devis clair, poste par poste."},{t:"Réalisation",d:"L'équipe installe en respectant les normes de sécurité."}],
+ bandT:"Un projet en tête ? Parlons-en.", bandP:"Appelez-nous ou écrivez-nous sur WhatsApp, on vous répond.",
+ svcTitle:"Nos services", svcIntro:"Du câblage d'un logement à la maison connectée.", idealFor:"Idéal pour :",
+ svc:[
+  {t:"Installation électrique bâtiment",d:"Tableau électrique, circuits, éclairage, prises et mise en service pour villas, appartements et immeubles.",tag:"villas, immeubles, rénovations"},
+  {t:"Caméras de surveillance",d:"Choix des emplacements, câblage et installation de caméras pour surveiller votre domicile ou votre chantier.",tag:"villas, commerces, chantiers"},
+  {t:"Domotique et maisons intelligentes",d:"Éclairage, volets roulants, climatisation et scénarios, commandés depuis un seul endroit.",tag:"villas, résidences"},
+  {t:"KNX",d:"Le standard international d'automatisation du bâtiment : les équipements communiquent entre eux sur un même réseau, et le système peut s'agrandir plus tard.",tag:"villas, promotions immobilières"}
+ ],
+ faqTitle:"Questions fréquentes",
+ faq:[
+  {q:"Intervenez-vous en dehors d'Alger ?",a:"Oui, principalement à Alger et parfois dans d'autres wilayas. Contactez-nous pour parler de votre projet."},
+  {q:"Comment obtenir un devis ?",a:"Appelez-nous ou écrivez-nous sur WhatsApp en décrivant votre projet. Nous vous envoyons un devis détaillé."},
+  {q:"La domotique, c'est seulement pour les grandes villas ?",a:"Pas forcément. Un système KNX peut démarrer petit et s'agrandir plus tard. Parlez-nous de votre projet."}
+ ],
+ whoTitle:"Qui sommes-nous",
+ whoP1:"AR Electric est une équipe d'électriciens du bâtiment basée à Alger. Notre métier : des installations électriques sûres et durables, avec 10 ans d'expérience derrière nous.",
+ whoP2:"Nous partageons aussi des astuces et des solutions sur TikTok et Instagram, pour aider les débutants du métier et expliquer aux clients les dangers des installations non conformes.",
+ commP:"Une communauté de plus de 330 000 abonnés nous suit sur TikTok.",
+ zoneT:"Où intervenons-nous ?", zoneP:"Principalement à Alger, et parfois dans d'autres wilayas.",
+ values:[{t:"La sécurité d'abord",d:"Nous respectons les normes de sécurité et de qualité."},{t:"Transparence",d:"Des devis détaillés, pour que vous sachiez ce que vous payez."},{t:"Humilité",d:"Peu de grands discours : un travail bien fait qui parle pour nous."},{t:"Formation continue",d:"Nous suivons les nouvelles technologies, comme la domotique."}],
+ advTitle:"Conseils d'électricien", advIntro:"Quelques réflexes simples pour votre sécurité. Pour tout travail sur l'installation, faites appel à un professionnel.",
+ tips:[
+  {t:"Ne surchargez pas les prises",d:"Évitez de brancher plusieurs appareils puissants (climatiseur, four, chauffe-eau) sur une même multiprise ou rallonge."},
+  {t:"Un différentiel qui fonctionne",d:"Le disjoncteur différentiel protège les personnes contre l'électrocution. Testez-le régulièrement avec son bouton test."},
+  {t:"La terre, c'est vital",d:"Une bonne mise à la terre protège des chocs électriques et des appareils défectueux."},
+  {t:"Des câbles adaptés",d:"Chaque circuit demande une section de câble adaptée à sa puissance. Faites-la calculer par un professionnel."},
+  {t:"Les signaux d'alerte",d:"Odeur de brûlé, prise chaude, disjoncteur qui saute souvent : coupez le circuit concerné et appelez un électricien."},
+  {t:"Exigez un devis détaillé",d:"Un devis clair liste le matériel et la main-d'œuvre. C'est le meilleur moyen d'éviter les mauvaises surprises."}
+ ],
+ advMoreT:"Plus d'astuces en vidéo", advMoreP:"Nous publions des conseils et des solutions sur TikTok.", advBtn:"Ouvrir TikTok",
+ podTitle:"Le podcast", podIntro:"Dans ce podcast d'environ 45 minutes, AR Electric raconte son parcours et sa façon de travailler.",
+ podCardT:"Regarder le podcast", podNote:"S'ouvre sur YouTube.", podBtn:"Regarder sur YouTube",
+ podPts:[{t:"Un parcours",d:"Après le lycée, la formation professionnelle pour apprendre un vrai métier manuel."},{t:"Une méthode",d:"Respect des normes de sécurité, devis détaillés et formation continue."},{t:"Les réseaux pour informer",d:"Des astuces pour les débutants et pour sensibiliser les clients."},{t:"Des valeurs",d:"L'humilité et le travail bien fait."}],
+ ctTitle:"Contact", ctIntro:"Appelez-nous ou écrivez-nous : on vous répond.",
+ phoneL:"Téléphone", waL:"WhatsApp et Viber", call:"Appeler", copy:"Copier", copied:"Copié",
+ helperT:"Préparez votre message WhatsApp", helperP:"Choisissez votre type de projet, WhatsApp s'ouvre avec le message prêt à envoyer.",
+ projL:"Type de projet", cityL:"Ville ou wilaya", cityPh:"Ex. : Alger", sendWa:"Envoyer sur WhatsApp",
+ projects:["Villa","Promotion immobilière","Caméras de surveillance","Domotique et KNX","Autre"],
+ socialT:"Suivez-nous", rights:"Tous droits réservés",
+ waGreet:"Bonjour AR Electric, j'aimerais avoir des informations.",
+ waMsg:"Bonjour AR Electric, je souhaite un devis pour : {p}.", waCity:" Ville : {c}."
+},
+ar:{
+ brandSub:"كهربائي مباني · كاميرات مراقبة · منازل ذكية",
+ navLabel:"أقسام الموقع", waAria:"راسلنا على واتساب",
+ tabs:{accueil:"الرئيسية",services:"خدماتنا",equipe:"من نحن",conseils:"نصائح",podcast:"البودكاست",contact:"اتصل بنا"},
+ hero:{eyebrow:"الجزائر العاصمة وولايات أخرى",h1:"كهرباء فيلتك أو مشروعك، منجزة وفق المعايير.",p:"AR Electric فريق كهربائيين متخصصين في المباني بخبرة 10 سنوات: تركيبات كهربائية، كاميرات مراقبة، منازل ذكية وتقنية KNX. عرض سعر مفصّل واحترام لمعايير السلامة.",cta1:"راسلنا على واتساب",cta2:"اكتشف خدماتنا"},
+ stats:[{n:"10 سنوات",l:"من الخبرة"},{n:"+330 ألف",l:"متابع على تيك توك"},{n:"+69 ألف",l:"متابع على إنستغرام"},{n:"الجزائر",l:"وولايات أخرى"}],
+ forTitle:"نعمل مع",
+ forItems:[{t:"أصحاب الفيلات",d:"تركيب كامل: لوحة كهربائية وإنارة ومقابس، مع منزل يسهل التحكم فيه."},{t:"المرقّون العقاريون",d:"تركيبات كهربائية للعمارات والإقامات، مع عرض سعر مفصّل ومحاور واضح."}],
+ howTitle:"كيف نعمل",
+ steps:[{t:"تتواصل معنا",d:"عبر الهاتف أو واتساب تشرح لنا مشروعك."},{t:"عرض سعر مفصّل",d:"تتلقى عرضًا واضحًا بندًا بندًا."},{t:"التنفيذ",d:"ينجز الفريق التركيب مع احترام معايير السلامة."}],
+ bandT:"عندك مشروع؟ لنتحدث عنه.", bandP:"اتصل بنا أو راسلنا على واتساب وسنرد عليك.",
+ svcTitle:"خدماتنا", svcIntro:"من تمديد الكهرباء في مسكن إلى المنزل الذكي.", idealFor:"مناسب لـ:",
+ svc:[
+  {t:"التركيبات الكهربائية للمباني",d:"لوحة كهربائية ودارات وإنارة ومقابس وتشغيل، للفيلات والشقق والعمارات.",tag:"فيلات، عمارات، أشغال ترميم"},
+  {t:"كاميرات المراقبة",d:"اختيار أماكن التركيب وتمديد الكابلات وتركيب الكاميرات لمراقبة منزلك أو ورشتك.",tag:"فيلات، محلات، ورشات"},
+  {t:"الدوموتيك والمنازل الذكية",d:"الإنارة والستائر الكهربائية والتكييف والسيناريوهات، كلها يتم التحكم فيها من مكان واحد.",tag:"فيلات، إقامات"},
+  {t:"تقنية KNX",d:"المعيار الدولي لأتمتة المباني: تتواصل المعدات فيما بينها على شبكة واحدة، ويمكن توسيع النظام لاحقًا.",tag:"فيلات، مشاريع الترقية العقارية"}
+ ],
+ faqTitle:"أسئلة شائعة",
+ faq:[
+  {q:"هل تعملون خارج الجزائر العاصمة؟",a:"نعم، نعمل أساسًا في الجزائر العاصمة وأحيانًا في ولايات أخرى. تواصل معنا لنتحدث عن مشروعك."},
+  {q:"كيف أحصل على عرض سعر؟",a:"اتصل بنا أو راسلنا على واتساب مع وصف مشروعك، وسنرسل لك عرض سعر مفصّلًا."},
+  {q:"هل الدوموتيك للفيلات الكبيرة فقط؟",a:"لا بالضرورة. يمكن لنظام KNX أن يبدأ صغيرًا ثم يتوسع لاحقًا. حدثنا عن مشروعك."}
+ ],
+ whoTitle:"من نحن",
+ whoP1:"AR Electric فريق كهربائيين متخصصين في المباني، مقره الجزائر العاصمة. عملنا هو تنفيذ تركيبات كهربائية آمنة ودائمة، وخلفنا 10 سنوات من الخبرة.",
+ whoP2:"ننشر أيضًا نصائح وحلولًا على تيك توك وإنستغرام لمساعدة المبتدئين في المهنة، وتوعية الزبائن بمخاطر التركيبات غير المطابقة.",
+ commP:"يتابعنا على تيك توك مجتمع من أكثر من 330 ألف متابع.",
+ zoneT:"أين نعمل؟", zoneP:"في الجزائر العاصمة أساسًا، وأحيانًا في ولايات أخرى.",
+ values:[{t:"السلامة أولًا",d:"نحترم معايير السلامة والجودة."},{t:"الشفافية",d:"عروض أسعار مفصّلة لتعرف ما تدفعه."},{t:"التواضع",d:"كلام قليل وعمل متقن يتحدث عنا."},{t:"التكوين المستمر",d:"نتابع التقنيات الحديثة مثل الدوموتيك."}],
+ advTitle:"نصائح كهربائي", advIntro:"بعض القواعد البسيطة لسلامتك. وأي عمل على التركيبة الكهربائية يُترك لمحترف.",
+ tips:[
+  {t:"لا تحمّل المقابس فوق طاقتها",d:"تجنب توصيل عدة أجهزة قوية (مكيف، فرن، سخان ماء) بنفس المشترك أو الوصلة."},
+  {t:"قاطع تفاضلي يعمل جيدًا",d:"القاطع التفاضلي يحمي الأشخاص من الصعق الكهربائي. اختبره بانتظام بزر الاختبار."},
+  {t:"التأريض مهم جدًا",d:"التأريض الجيد يحمي من الصدمات الكهربائية ومن الأجهزة المعطوبة."},
+  {t:"كابلات مناسبة",d:"كل دارة تحتاج مقطع كابل مناسبًا لقدرتها. اطلب من محترف حسابه."},
+  {t:"علامات الخطر",d:"رائحة حرق، مقبس ساخن، قاطع يفصل باستمرار: افصل الدارة المعنية واتصل بكهربائي."},
+  {t:"اطلب عرض سعر مفصّلًا",d:"العرض الواضح يذكر المعدات واليد العاملة. وهو أفضل وسيلة لتفادي المفاجآت."}
+ ],
+ advMoreT:"المزيد من النصائح بالفيديو", advMoreP:"ننشر نصائح وحلولًا على تيك توك.", advBtn:"افتح تيك توك",
+ podTitle:"البودكاست", podIntro:"في هذا البودكاست الذي يدوم حوالي 45 دقيقة، يحكي AR Electric مساره وطريقة عمله.",
+ podCardT:"شاهد البودكاست", podNote:"يفتح على يوتيوب.", podBtn:"شاهد على يوتيوب",
+ podPts:[{t:"مسار مهني",d:"بعد الثانوية اختار التكوين المهني ليتعلم حرفة يدوية حقيقية."},{t:"طريقة عمل",d:"احترام معايير السلامة، عروض أسعار مفصّلة وتكوين مستمر."},{t:"الشبكات للتوعية",d:"نصائح للمبتدئين وتوعية للزبائن."},{t:"قيم",d:"التواضع والعمل المتقن."}],
+ ctTitle:"اتصل بنا", ctIntro:"اتصل بنا أو راسلنا وسنرد عليك.",
+ phoneL:"الهاتف", waL:"واتساب وفايبر", call:"اتصال", copy:"نسخ", copied:"تم النسخ",
+ helperT:"حضّر رسالتك على واتساب", helperP:"اختر نوع مشروعك، فيفتح واتساب برسالة جاهزة للإرسال.",
+ projL:"نوع المشروع", cityL:"المدينة أو الولاية", cityPh:"مثال: الجزائر", sendWa:"أرسل على واتساب",
+ projects:["فيلا","ترقية عقارية","كاميرات مراقبة","دوموتيك و KNX","آخر"],
+ socialT:"تابعنا", rights:"جميع الحقوق محفوظة",
+ waGreet:"السلام عليكم AR Electric، أريد الحصول على معلومات.",
+ waMsg:"السلام عليكم AR Electric، أريد عرض سعر لـ: {p}.", waCity:" المدينة: {c}."
+},
+en:{
+ brandSub:"Building electrician · Cameras · Home automation",
+ navLabel:"Site sections", waAria:"Message us on WhatsApp",
+ tabs:{accueil:"Home",services:"Services",equipe:"About us",conseils:"Tips",podcast:"Podcast",contact:"Contact"},
+ hero:{eyebrow:"Algiers and other provinces",h1:"The electrical work of your villa or project, done by the book.",p:"AR Electric is a team of building electricians with 10 years of experience: electrical installation, security cameras, home automation and KNX. Detailed quotes, safety standards respected.",cta1:"Message us on WhatsApp",cta2:"See our services"},
+ stats:[{n:"10 years",l:"of experience"},{n:"330 K+",l:"followers on TikTok"},{n:"69 K+",l:"followers on Instagram"},{n:"Algiers",l:"and other provinces"}],
+ forTitle:"We work with",
+ forItems:[{t:"Villa owners",d:"Complete installation: electrical panel, lighting, sockets, and a home that is easy to control."},{t:"Property developers",d:"Electrical installations for your buildings and residences, with a detailed quote and a clear point of contact."}],
+ howTitle:"How we work",
+ steps:[{t:"You contact us",d:"By phone or WhatsApp, you tell us about your project."},{t:"Detailed quote",d:"You receive a clear quote, item by item."},{t:"Installation",d:"The team installs everything following safety standards."}],
+ bandT:"Have a project in mind? Let's talk.", bandP:"Call us or write to us on WhatsApp, we will get back to you.",
+ svcTitle:"Our services", svcIntro:"From wiring a home to a connected house.", idealFor:"Ideal for:",
+ svc:[
+  {t:"Building electrical installation",d:"Electrical panel, circuits, lighting, sockets and commissioning for villas, apartments and buildings.",tag:"villas, buildings, renovations"},
+  {t:"Security cameras",d:"Choosing camera positions, cabling and installation to keep an eye on your home or your site.",tag:"villas, shops, building sites"},
+  {t:"Home automation and smart homes",d:"Lighting, roller shutters, air conditioning and scenes, all controlled from one place.",tag:"villas, residences"},
+  {t:"KNX",d:"The international building automation standard: devices talk to each other on one network, and the system can grow later.",tag:"villas, property developments"}
+ ],
+ faqTitle:"Frequently asked questions",
+ faq:[
+  {q:"Do you work outside Algiers?",a:"Yes, mainly in Algiers and sometimes in other provinces. Contact us to talk about your project."},
+  {q:"How do I get a quote?",a:"Call us or write on WhatsApp and describe your project. We will send you a detailed quote."},
+  {q:"Is home automation only for large villas?",a:"Not necessarily. A KNX system can start small and grow later. Tell us about your project."}
+ ],
+ whoTitle:"About us",
+ whoP1:"AR Electric is a team of building electricians based in Algiers. Our job is safe, lasting electrical installations, with 10 years of experience behind us.",
+ whoP2:"We also share tips and solutions on TikTok and Instagram, to help people starting in the trade and to explain to customers the dangers of non-compliant installations.",
+ commP:"A community of more than 330,000 followers follows us on TikTok.",
+ zoneT:"Where do we work?", zoneP:"Mainly in Algiers, and sometimes in other provinces.",
+ values:[{t:"Safety first",d:"We follow safety and quality standards."},{t:"Transparency",d:"Detailed quotes, so you know what you are paying for."},{t:"Humility",d:"Few big speeches: good work that speaks for us."},{t:"Ongoing training",d:"We keep up with new technology, such as home automation."}],
+ advTitle:"Electrician's tips", advIntro:"A few simple habits for your safety. For any work on the installation, call a professional.",
+ tips:[
+  {t:"Do not overload sockets",d:"Avoid plugging several powerful appliances (air conditioner, oven, water heater) into the same power strip or extension lead."},
+  {t:"A working RCD",d:"The residual current device protects people from electric shock. Test it regularly with its test button."},
+  {t:"Earthing matters",d:"Good earthing protects against electric shock and faulty appliances."},
+  {t:"The right cables",d:"Each circuit needs a cable size suited to its power. Have a professional work it out."},
+  {t:"Warning signs",d:"Burning smell, hot socket, breaker that trips often: switch off the circuit and call an electrician."},
+  {t:"Ask for a detailed quote",d:"A clear quote lists materials and labor. It is the best way to avoid unpleasant surprises."}
+ ],
+ advMoreT:"More tips on video", advMoreP:"We post advice and solutions on TikTok.", advBtn:"Open TikTok",
+ podTitle:"The podcast", podIntro:"In this podcast of about 45 minutes, AR Electric tells the story of the business and how it works.",
+ podCardT:"Watch the podcast", podNote:"Opens on YouTube.", podBtn:"Watch on YouTube",
+ podPts:[{t:"A career path",d:"After school, vocational training to learn a real hands-on trade."},{t:"A method",d:"Safety standards, detailed quotes and ongoing training."},{t:"Social media to inform",d:"Tips for beginners and awareness for customers."},{t:"Values",d:"Humility and good work."}],
+ ctTitle:"Contact", ctIntro:"Call us or write to us: we will get back to you.",
+ phoneL:"Phone", waL:"WhatsApp and Viber", call:"Call", copy:"Copy", copied:"Copied",
+ helperT:"Prepare your WhatsApp message", helperP:"Pick your project type and WhatsApp opens with the message ready to send.",
+ projL:"Project type", cityL:"City or province", cityPh:"E.g. Algiers", sendWa:"Send on WhatsApp",
+ projects:["Villa","Property development","Security cameras","Home automation and KNX","Other"],
+ socialT:"Follow us", rights:"All rights reserved",
+ waGreet:"Hello AR Electric, I would like some information.",
+ waMsg:"Hello AR Electric, I would like a quote for: {p}.", waCity:" City: {c}."
+}
+};
+
+var LANG="fr", PROJ=0, CITY="";
+var $=function(s){return document.querySelector(s)};
+var $$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+function get(o,path){return path.split(".").reduce(function(a,k){return a&&a[k]},o)}
+function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+function fill(id,arr,build){var c=document.getElementById(id);c.replaceChildren();arr.forEach(function(x,i){c.appendChild(build(x,i))})}
+
+function waLink(msg){return "https://wa.me/"+WA+(msg?"?text="+encodeURIComponent(msg):"")}
+function helperMsg(){
+  var d=D[LANG],m=d.waMsg.replace("{p}",d.projects[PROJ]);
+  var c=CITY.trim();if(c)m+=d.waCity.replace("{c}",c);
+  return m;
+}
+function updateWa(){
+  var d=D[LANG],g=waLink(d.waGreet);
+  $$("[data-wa]").forEach(function(a){a.href=g});
+  $("#waHelper").href=waLink(helperMsg());
+}
+
+function render(){
+  var d=D[LANG];
+  $$("[data-i18n]").forEach(function(e){var v=get(d,e.getAttribute("data-i18n"));if(v!=null)e.textContent=v});
+  $$("[data-i18n-ph]").forEach(function(e){e.placeholder=get(d,e.getAttribute("data-i18n-ph"))});
+  $$("[data-i18n-aria]").forEach(function(e){e.setAttribute("aria-label",get(d,e.getAttribute("data-i18n-aria")))});
+  fill("stats",d.stats,function(s){var x=el("div","stat");x.appendChild(el("b",null,s.n));x.appendChild(el("span",null,s.l));return x});
+  fill("forItems",d.forItems,function(s){var x=el("div","panel");x.appendChild(el("h3",null,s.t));x.appendChild(el("p",null,s.d));return x});
+  fill("steps",d.steps,function(s,i){var x=el("div","panel step");x.appendChild(el("span","num",String(i+1)));x.appendChild(el("h3",null,s.t));x.appendChild(el("p",null,s.d));return x});
+  fill("svc",d.svc,function(s,i){var x=el("article","panel");var ic=el("div","ico");ic.setAttribute("aria-hidden","true");ic.innerHTML=ICONS[i];x.appendChild(ic);x.appendChild(el("h3",null,s.t));x.appendChild(el("p",null,s.d));x.appendChild(el("span","tag",d.idealFor+" "+s.tag));return x});
+  function acc(q,a){var x=el("details","acc");x.appendChild(el("summary",null,q));x.appendChild(el("p",null,a));return x}
+  fill("faq",d.faq,function(s){return acc(s.q,s.a)});
+  fill("tips",d.tips,function(s){return acc(s.t,s.d)});
+  fill("vals",d.values,function(s){var x=el("div","panel");x.appendChild(el("h3",null,s.t));x.appendChild(el("p",null,s.d));return x});
+  fill("podPts",d.podPts,function(s){var x=el("li");x.appendChild(el("b",null,s.t));x.appendChild(el("span",null,s.d));return x});
+  fill("chips",d.projects,function(p,i){var b=el("button","chip",p);b.type="button";b.setAttribute("aria-pressed",i===PROJ?"true":"false");b.addEventListener("click",function(){PROJ=i;$$("#chips .chip").forEach(function(c,j){c.setAttribute("aria-pressed",j===PROJ?"true":"false")});updateWa()});return b});
+  updateWa();
+}
+
+function setLang(l,save){
+  LANG=l;
+  var h=document.documentElement;h.setAttribute("lang",l);h.setAttribute("dir",l==="ar"?"rtl":"ltr");
+  $$(".lang button").forEach(function(b){b.setAttribute("aria-pressed",b.getAttribute("data-lang")===l?"true":"false")});
+  if(save){try{localStorage.setItem("ar-electric-lang",l)}catch(e){}}
+  render();
+}
+
+function show(scroll){
+  var id=location.hash.slice(1);if(TABS.indexOf(id)<0)id="accueil";
+  $$("main > section").forEach(function(s){s.hidden=s.getAttribute("data-tab")!==id});
+  $$(".tab").forEach(function(t){
+    var on=t.getAttribute("data-tab")===id;
+    if(on){t.setAttribute("aria-current","page");try{t.scrollIntoView({block:"nearest",inline:"center"})}catch(e){}}else t.removeAttribute("aria-current");
+  });
+  if(scroll)window.scrollTo(0,0);
+}
+
+$$("img[data-logo]").forEach(function(i){i.src=LOGO});
+$$(".lang button").forEach(function(b){b.addEventListener("click",function(){setLang(b.getAttribute("data-lang"),true)})});
+$("#city").addEventListener("input",function(e){CITY=e.target.value;updateWa()});
+$$("[data-copy]").forEach(function(b){
+  b.addEventListener("click",function(){
+    var node=document.getElementById(b.getAttribute("data-copy")),txt=node.textContent.replace(/\s+/g,"");
+    var label=b.querySelector("span");
+    function done(){var o=label.textContent;label.textContent=D[LANG].copied;setTimeout(function(){label.textContent=D[LANG].copy},1600)}
+    function fallback(){try{var r=document.createRange();r.selectNodeContents(node);var s=window.getSelection();s.removeAllRanges();s.addRange(r)}catch(e){}}
+    try{navigator.clipboard.writeText(txt).then(done,fallback)}catch(e){fallback()}
+  });
+});
+window.addEventListener("hashchange",function(){show(true)});
+
+var start="fr";try{start=localStorage.getItem("ar-electric-lang")||"fr"}catch(e){}
+if(!D[start])start="fr";
+setLang(start,false);
+show(false);
+})();
+</script>
